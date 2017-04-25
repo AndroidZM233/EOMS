@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blue"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/menu_userinfo" />
+
+        <TextView
+            android:id="@+id/tv_menu_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="张三"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_menu_clean"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:drawableLeft="@drawable/menu_clean_blue"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:text="本地缓存天数10天"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_menu_record"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:drawableLeft="@drawable/menu_record_blue"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:text="历史记录"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_menu_import"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:drawableLeft="@drawable/menu_import_blue"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:text="导入基础信息"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_menu_auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:drawableLeft="@drawable/menu_auto_blue"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:text="自动导入导出时间间隔"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_menu_version"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:drawableLeft="@drawable/menu_version_blue"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:text="版本号 V1.0"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</LinearLayout>

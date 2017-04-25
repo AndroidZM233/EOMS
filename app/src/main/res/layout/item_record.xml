@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="5dp"
+    android:layout_height="100dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:textSize="15sp"
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2022-22-22" />
+
+        <View
+            android:layout_marginTop="5dp"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shuxian" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="50dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/linearlayout1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <View
+                android:background="@drawable/hengxian"
+                android:layout_width="20dp"
+                android:layout_height="1dp"/>
+            <TextView
+                android:id="@+id/tv_info1"
+                android:layout_marginLeft="10dp"
+                android:text="sadmsfkfkfkl.tet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <View
+                android:background="@drawable/hengxian"
+                android:layout_width="20dp"
+                android:layout_height="1dp"/>
+            <TextView
+                android:id="@+id/tv_info2"
+                android:layout_marginLeft="10dp"
+                android:text="sadmsfkfkfkl.tet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
