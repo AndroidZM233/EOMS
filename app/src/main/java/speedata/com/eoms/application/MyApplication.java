@@ -42,7 +42,7 @@ public class MyApplication extends Application {
         user.setUser_name("0000");
         user.setPwd("0000");
         user.setReal_name("zhang");
-        userDao.insert(user);
+        userDao.insertOrReplace(user);
     }
 
     private void setupDatabase() {

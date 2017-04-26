@@ -7,7 +7,7 @@
     <!--主题色-->
     <color name="theme_color">#808080</color>
     <color name="theme_button_color">#000141</color>
-    <color name="gray_bg">#F5F5F5</color>
+    <color name="gray_bg">#EEEEEE</color>
     <color name="commom_item_line_color">#dcdcdc</color>
     <color name="text_white">#FFFFFF</color>
     <color name="weixin_press">#e1f5fc</color>

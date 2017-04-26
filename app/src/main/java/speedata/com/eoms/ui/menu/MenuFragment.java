@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import speedata.com.eoms.R;
 import speedata.com.eoms.mvp.MVPBaseFragment;
@@ -82,11 +83,17 @@ public class MenuFragment extends MVPBaseFragment<MenuContract.View, MenuPresent
                 startActivity(intent);
                 break;
             case R.id.tv_menu_import:
+                mPresenter.importInfo();
                 break;
             case R.id.tv_menu_auto:
                 break;
             case R.id.tv_menu_version:
                 break;
         }
+    }
+
+    @Override
+    public void changeImportUi(String read) {
+        Toast.makeText((MainActivity) getActivity(),read,Toast.LENGTH_SHORT).show();
     }
 }

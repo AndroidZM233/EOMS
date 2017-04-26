@@ -1,7 +1,5 @@
 package speedata.com.eoms.ui.menu;
 
-import android.content.Context;
-
 import speedata.com.eoms.mvp.BasePresenter;
 import speedata.com.eoms.mvp.BaseView;
 
@@ -12,10 +10,10 @@ import speedata.com.eoms.mvp.BaseView;
 
 public class MenuContract {
     interface View extends BaseView {
-        
+        void changeImportUi(String read);
     }
 
     interface  Presenter extends BasePresenter<View> {
-        
+        void importInfo();
     }
 }
