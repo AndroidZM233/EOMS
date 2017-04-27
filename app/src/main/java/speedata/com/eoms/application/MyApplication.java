@@ -2,6 +2,7 @@ package speedata.com.eoms.application;
 
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
+import android.telephony.TelephonyManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,8 @@ public class MyApplication extends Application {
      * 图片集合
      */
     public List<ImageItem> selectBitmap = new ArrayList<ImageItem>();
+    public static String deviceId;
+    public static String realName;
 
     @Override
     public void onCreate() {
@@ -31,6 +34,8 @@ public class MyApplication extends Application {
         singleton = this;
         setupDatabase();
         initData();
+        deviceId = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE))
+                .getDeviceId();
     }
     public static MyApplication getInstance() {
         return singleton;
@@ -58,5 +63,9 @@ public class MyApplication extends Application {
 
     public static DaoSession getDaoInstant(){
         return daoSession;
+    }
+
+    public static void setRealName(String name){
+        realName=name;
     }
 }

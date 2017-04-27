@@ -40,7 +40,7 @@
                     android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="007"
+                    android:text="请扫描或选择"
                     android:textColor="@color/blue"
                     android:textSize="18sp" />
 
@@ -69,7 +69,7 @@
                     android:id="@+id/tv_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="007"
+                    android:text="请扫描或选择"
                     android:textColor="@color/blue"
                     android:textSize="18sp" />
 
@@ -98,7 +98,7 @@
                     android:id="@+id/tv_position"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="007"
+                    android:text="请扫描或选择"
                     android:textColor="@color/blue"
                     android:textSize="18sp" />
 
@@ -127,7 +127,7 @@
                     android:id="@+id/tv_responsible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="007"
+                    android:text="请扫描或选择"
                     android:textColor="@color/blue"
                     android:textSize="18sp" />
 
@@ -156,7 +156,7 @@
                     android:id="@+id/tv_repair"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="007"
+                    android:text="请扫描或选择"
                     android:textColor="@color/blue"
                     android:textSize="18sp" />
 

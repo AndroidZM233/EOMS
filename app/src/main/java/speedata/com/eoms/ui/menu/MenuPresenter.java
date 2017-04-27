@@ -26,15 +26,26 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
         try {
             //导入设备文件
             importDevice();
-            //导入设备分类
-            importDeviceType();
-            //导入故障类型
-            importFaultType();
-            mView.changeImportUi("导入成功！");
         } catch (Exception e) {
             e.printStackTrace();
-            mView.changeImportUi("导入失败！");
+            mView.changeImportUi("导入设备文件失败！");
         }
+        try {
+            //导入设备分类
+            importDeviceType();
+        } catch (Exception e) {
+            e.printStackTrace();
+            mView.changeImportUi("导入设备分类文件失败！");
+        }
+        try {
+            //导入故障类型
+            importFaultType();
+        } catch (Exception e) {
+            e.printStackTrace();
+            mView.changeImportUi("导入故障类型文件失败！");
+        }
+
+        mView.changeImportUi("导入成功！");
 
     }
 

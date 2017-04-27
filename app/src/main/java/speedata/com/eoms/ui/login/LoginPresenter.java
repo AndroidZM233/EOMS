@@ -1,14 +1,11 @@
 package speedata.com.eoms.ui.login;
 
-import android.content.Intent;
-
 import java.util.List;
 
 import speedata.com.eoms.application.MyApplication;
 import speedata.com.eoms.bean.User;
 import speedata.com.eoms.bean.UserDao;
 import speedata.com.eoms.mvp.BasePresenterImpl;
-import speedata.com.eoms.ui.main.MainActivity;
 
 /**
  * MVPPlugin
@@ -25,6 +22,7 @@ public class LoginPresenter extends BasePresenterImpl<LoginContract.View>
                 .queryBuilder().where(UserDao.Properties.User_name.eq(user)).list();
         if (list.size()!=0){
             if (pwd.equals(list.get(0).getPwd())){
+                MyApplication.setRealName(list.get(0).getReal_name());
                 mView.loginSuccess();
             }else {
                 mView.loginPwdFailed();
