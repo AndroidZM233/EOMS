@@ -35,7 +35,6 @@ import speedata.com.eoms.ui.onecheck.OnecheckActivity;
 import speedata.com.eoms.ui.showphoto.ShowPhotoActivity;
 import speedata.com.eoms.utils.BimpUtil;
 import speedata.com.eoms.utils.GetTimeUtils;
-import speedata.com.eoms.utils.PlaySoundPool;
 import speedata.com.eoms.utils.ScanUtil;
 import speedata.com.eoms.view.MyGridView;
 
@@ -62,6 +61,7 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
     private GridAdapter adapter;
     private String orderNumber;
     private static final int TAKE_PICTURE = 0x000001;
+    private ScanUtil scanUtil;
 
 
     @Override
@@ -96,10 +96,12 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
         btn_top_left.setVisibility(View.INVISIBLE);
         tv_title.setText("报修");
         radioGroup.setVisibility(View.GONE);
-        adapter = new GridAdapter((MainActivity) getActivity());
+        if (adapter==null){
+            adapter = new GridAdapter((MainActivity) getActivity());
+        }
         gridview_photo.setAdapter(adapter);
         gridview_photo.setOnItemClickListener(this);
-        ScanUtil scanUtil = new ScanUtil((MainActivity) getActivity());
+        scanUtil = new ScanUtil((MainActivity) getActivity());
         scanUtil.setOnScanListener(new ScanUtil.OnScanListener() {
             @Override
             public void getBarcode(String data) {
@@ -113,12 +115,25 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
                     tv_responsible.setText(list.get(0).getResponsibilityOffice());
                     tv_repair.setText(list.get(0).getMaintenanceFactory());
                     orderNumber=list.get(0).getId();
-                    PlaySoundPool.getPlaySoundPool((MainActivity) getActivity()).play(2, 0);
+//                    PlaySoundPool.getPlaySoundPool((MainActivity) getActivity()).playLaser();
+
+                    BimpUtil.max = 0;
+                    MyApplication.getInstance().selectBitmap.clear();
+                    mPresenter.getOrderNumPhoto(orderNumber);//获取当前单号下的照片
+                    adapter.update(handler);
+
                 } else {
-                    PlaySoundPool.getPlaySoundPool((MainActivity) getActivity()).play(1, 0);
+//                    PlaySoundPool.getPlaySoundPool((MainActivity) getActivity()).playError();
                 }
             }
         });
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        scanUtil.stopReceData();
     }
 
     @Override
@@ -126,22 +141,41 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
         switch (v.getId()){
             case R.id.btn_commit:
                 if (TextUtils.isEmpty(orderNumber)){
-                    Toast.makeText((MainActivity) getActivity(),"请先扫描或者选择!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText((MainActivity) getActivity(),"请先扫描或者选择!"
+                            ,Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String oldPath = AppConfig.getTempDataPath()+ "/" + orderNumber;
-                String newPath="/data/HTYL/Out";
-                String fileListStr = BimpUtil.getFileListStr(oldPath);
-                String result=GetTimeUtils.getTimeStyle2() +","
-                        +orderNumber+","
-                        +" "+","
-                        +et_remark.getText().toString()+","
-                        +MyApplication.realName+","
-                        +fileListStr;
-//                BimpUtil.initChmod("chmod 777 /data/HTYL/Out");
-//                BimpUtil.initChmod("adb shell");
-                BimpUtil.initChmod("mkdir /data/HTYL/Out");
-                BimpUtil.copyFolder(oldPath,newPath);
+                final String repairContent = et_remark.getText().toString();
+                if (TextUtils.isEmpty(repairContent)){
+                    Toast.makeText((MainActivity) getActivity(),"请填写备注（故障内容）!"
+                            ,Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                showLoading((MainActivity) getActivity(),"提交中...");
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        final boolean repairTXT = mPresenter.saveRepairTXT(orderNumber,
+                                repairContent);
+                        hideLoading();
+                        ((MainActivity) getActivity()).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (repairTXT){
+                                    Toast.makeText((MainActivity) getActivity(),"提交成功！!"
+                                            ,Toast.LENGTH_SHORT).show();
+//                                    closeFragment();
+                                    openFragment(new RepairFragment());
+                                }else {
+                                    Toast.makeText((MainActivity) getActivity(),"提交失败，文件保存失败!"
+                                            ,Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                }).start();
 
                 break;
         }
@@ -209,4 +243,6 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+
 }

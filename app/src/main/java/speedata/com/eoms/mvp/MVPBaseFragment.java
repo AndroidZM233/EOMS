@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import java.lang.reflect.ParameterizedType;
 
 import speedata.com.eoms.R;
+import speedata.com.eoms.view.FlippingLoadingDialog;
 
 /**
  * MVPPlugin
@@ -21,7 +22,7 @@ import speedata.com.eoms.R;
 public abstract class MVPBaseFragment<V extends BaseView,T extends BasePresenterImpl<V>> extends Fragment implements BaseView{
     public T mPresenter;
     private static final int containerViewId = R.id.frame_main;
-
+    private FlippingLoadingDialog mProgressDialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +52,30 @@ public abstract class MVPBaseFragment<V extends BaseView,T extends BasePresenter
         // 提交事物
         transaction.commit();
     }
+    /**
+     * 关闭Fragment
+     */
+    public void closeFragment() {
+        FragmentManager fm = getFragmentManager();
+        fm.popBackStack();
+    }
+
+
+    public void showLoading(Context c,String text) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new FlippingLoadingDialog(c, text);
+        }
+        mProgressDialog.setText(text);
+        mProgressDialog.show();
+    }
+
+    public void hideLoading() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
+
+    }
+
 
     public abstract int getLayout();
     public View root;

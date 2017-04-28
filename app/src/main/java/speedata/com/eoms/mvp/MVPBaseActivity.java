@@ -18,6 +18,7 @@ import java.lang.reflect.ParameterizedType;
 
 import speedata.com.eoms.R;
 import speedata.com.eoms.utils.StringUtil;
+import speedata.com.eoms.view.FlippingLoadingDialog;
 
 
 /**
@@ -177,6 +178,29 @@ public abstract class MVPBaseActivity<V extends BaseView,T
         transaction.addToBackStack(null);
         // 提交事物
         transaction.commit();
+    }
+    /**
+     * 关闭Fragment
+     */
+    public void closeFragment() {
+        FragmentManager fm = getFragmentManager();
+        fm.popBackStack();
+    }
+
+    private FlippingLoadingDialog mProgressDialog;
+    public void showLoading(String text) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new FlippingLoadingDialog(this, text);
+        }
+        mProgressDialog.setText(text);
+        mProgressDialog.show();
+    }
+
+    public void hideLoading() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
+
     }
 
     @Override

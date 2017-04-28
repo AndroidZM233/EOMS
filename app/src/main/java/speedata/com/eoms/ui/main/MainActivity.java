@@ -71,6 +71,7 @@ public class MainActivity extends MVPBaseActivity<MainContract.View, MainPresent
         blackMenu.setBounds(0, 0, blackMenu.getMinimumWidth(), blackMenu.getMinimumHeight());
         tv_menu.setCompoundDrawables(null, blackMenu, null, null);
 
+        closeFragment();
         openFragment(new CheckFragment());
     }
 
@@ -86,6 +87,7 @@ public class MainActivity extends MVPBaseActivity<MainContract.View, MainPresent
         blackMenu.setBounds(0, 0, blackMenu.getMinimumWidth(), blackMenu.getMinimumHeight());
         tv_menu.setCompoundDrawables(null, blackMenu, null, null);
 
+        closeFragment();
         openFragment(new RepairFragment());
     }
 
@@ -101,6 +103,7 @@ public class MainActivity extends MVPBaseActivity<MainContract.View, MainPresent
         blueMenu.setBounds(0, 0, blueMenu.getMinimumWidth(), blueMenu.getMinimumHeight());
         tv_menu.setCompoundDrawables(null, blueMenu, null, null);
 
+        closeFragment();
         openFragment(new MenuFragment());
     }
 

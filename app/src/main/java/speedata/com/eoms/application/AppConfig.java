@@ -23,4 +23,17 @@ public class AppConfig {
         return path.getPath();
     }
 
+    /**
+     * 获取存储信息目录
+     *
+     * @return
+     */
+    public static String getDataPath() {
+        // create directory full path
+        File path = new File(Environment.getExternalStorageDirectory(), "data/HTYL");// 创建目录
+        if (!path.exists()) {// 目录存在返回false
+            path.mkdirs();// 创建一个目录
+        }
+        return path.getPath();
+    }
 }

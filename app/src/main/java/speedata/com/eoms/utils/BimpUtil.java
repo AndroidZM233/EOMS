@@ -5,14 +5,14 @@ import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 
 import speedata.com.eoms.application.MyApplication;
 import speedata.com.eoms.model.ImageItem;
@@ -37,28 +37,6 @@ public class BimpUtil {
             }
         }
         return String.valueOf(result);
-    }
-
-    /**
-     * 整个复制文件夹里的文件
-     *
-     * @param oldPath 原文件路径 如：c:
-     * @param newPath 复制后路径 如：f:
-     */
-    public static void copyFileToNewFile(String oldPath, String newPath) {
-        String path = "";
-        File file = new File(oldPath);
-        File[] listFiles = file.listFiles();
-        for (int i = 0; i < listFiles.length; i++) {
-            path = listFiles[i].getPath();
-            String[] split = path.split("/");
-            String newPathResult = newPath + split[split.length - 1];
-            File newFile = new File(newPathResult);// 创建目录
-            if (!newFile.exists()) {// 目录存在返回false
-                newFile.mkdirs();// 创建一个目录
-            }
-            copyFile(path, newPathResult);
-        }
     }
 
     /**
@@ -142,51 +120,19 @@ public class BimpUtil {
 
     }
 
-    /**
-     * 修改文件或文件夹的权限
-     **/
-    public static void initChmod(String command) {
-//        Process process = null;
-//        DataOutputStream os = null;
-//        try {
-//            process = Runtime.getRuntime().exec("su");
-//            os = new DataOutputStream(process.getOutputStream());
-////            os.writeBytes("adb shell\n");
-////            os.writeBytes("mkdir /data/HTYL/Out\n");
-//            os.writeBytes(command + "\n");
-//            os.writeBytes("exit\n");
-//            os.flush();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        finally {
-//            try {
-//                if (os != null) {
-//                    os.close();
-//                }
-//                process.destroy();
-//            } catch (Exception e) {
-//            }
-//        }
 
-
+    public static void writeContent(String path, String str) {
+        OutputStreamWriter pw = null;//定义一个流
         try {
-            Process process = Runtime.getRuntime().exec(command);
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream()));
-            int read;
-            char[] buffer = new char[4096];
-            StringBuffer output = new StringBuffer();
-            while ((read = reader.read(buffer)) > 0) {
-                output.append(buffer, 0, read);
-            }
-            reader.close();
-            process.waitFor();
-//            return output.toString();
+            pw = new OutputStreamWriter(new FileOutputStream(path), "UTF-8");//确认流的输出文件和编码格式，此过程创建了“test.txt”实例
+            pw.write(str);//将要写入文件的内容，可以多次write
+            pw.close();//关闭流
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
     }
@@ -284,5 +230,23 @@ public class BimpUtil {
         }
         MyApplication.getInstance().selectBitmap.clear();
         BimpUtil.max = 0;
+    }
+
+    //删除整个文件夹方法
+    public static boolean deleteSDFile(File file) {
+
+        //file目标文件夹绝对路径
+        if (file.exists()) { //指定文件是否存在
+            if (file.isFile()) { //该路径名表示的文件是否是一个标准文件
+                file.delete(); //删除该文件
+            } else if (file.isDirectory()) { //该路径名表示的文件是否是一个目录（文件夹）
+                File[] files = file.listFiles(); //列出当前文件夹下的所有文件
+                for (File f : files) {
+                    deleteSDFile(f); //递归删除
+                }
+            }
+            file.delete(); //删除文件夹（song,art,lyric）
+        }
+        return true;
     }
 }

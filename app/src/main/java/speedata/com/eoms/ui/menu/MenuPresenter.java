@@ -51,7 +51,7 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
 
     @NonNull
     private void importDevice() {
-        String read = FileUtil.read("/data/HTYL/In/device.txt");
+        String read = FileUtil.read("/storage/emulated/0/data/HTYL/In/device.txt");
         String[] split = read.split("\n");
         for (int i = 0; i < split.length; i++) {
             String[] infoSplit = split[i].split(",");
@@ -90,7 +90,7 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
     }
 
     private void importDeviceType() {
-        String read = FileUtil.read("/data/HTYL/In/deviceType.txt");
+        String read = FileUtil.read("/storage/emulated/0/data/HTYL/In/deviceType.txt");
         String[] split = read.split("\n");
         for (int i = 0; i < split.length; i++) {
             String[] infoSplit = split[i].split(",");
@@ -105,7 +105,7 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
 
 
     private void importFaultType() {
-        String read = FileUtil.read("/data/HTYL/In/faultType.txt");
+        String read = FileUtil.read("/storage/emulated/0/data/HTYL/In/faultType.txt");
         String[] split = read.split("\n");
         for (int i = 0; i < split.length; i++) {
             String[] infoSplit = split[i].split(",");
@@ -121,7 +121,7 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
 
     //有问题-主键问题
     private void importUser() {
-        String read = FileUtil.read("/data/HTYL/In/user.txt");
+        String read = FileUtil.read("/storage/emulated/0/data/HTYL/In/user.txt");
         String[] split = read.split("\n");
         for (int i = 0; i < split.length; i++) {
             String[] infoSplit = split[i].split(",");
@@ -133,7 +133,7 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
     }
 
     private void importPackage() {
-        String read = FileUtil.read("/data/HTYL/In/package.txt");
+        String read = FileUtil.read("/storage/emulated/0/data/HTYL/In/package.txt");
         String[] split = read.split("\n");
         for (int i = 0; i < split.length; i++) {
             String[] infoSplit = split[i].split(",");

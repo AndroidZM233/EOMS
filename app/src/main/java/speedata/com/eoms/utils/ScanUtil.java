@@ -117,4 +117,8 @@ public class ScanUtil {
 		context.sendBroadcast(intent);
 		context.unregisterReceiver(receiver);
 	}
+
+	public void stopReceData(){
+		context.unregisterReceiver(receiver);
+	}
 }

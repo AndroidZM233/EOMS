@@ -26,7 +26,7 @@ public class MyApplication extends Application {
      */
     public List<ImageItem> selectBitmap = new ArrayList<ImageItem>();
     public static String deviceId;
-    public static String realName;
+    public static String realName="测试";
 
     @Override
     public void onCreate() {
