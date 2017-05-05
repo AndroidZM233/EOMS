@@ -68,17 +68,16 @@ public class Device {
     private String reservedThree;
     //创建时间
     private String creationTime;
-
     @Generated(hash = 851080128)
     public Device(String id, String name, String barcode, String classify,
-                  String position, String buyDate, String useDate, String keepYears,
-                  String maintenanceFactory, String maintenanceFactoryId, String type,
-                  String model, String manufacturer, String supplier,
-                  String managementUnit, String responsibilityOffice, String useStation,
-                  String equipDepartment, String number, String state, String flagBit,
-                  String checkPeriod, String repairLevel, String usedTime, String remark,
-                  String reservedOne, String reservedTwo, String reservedThree,
-                  String creationTime) {
+            String position, String buyDate, String useDate, String keepYears,
+            String maintenanceFactory, String maintenanceFactoryId, String type,
+            String model, String manufacturer, String supplier,
+            String managementUnit, String responsibilityOffice, String useStation,
+            String equipDepartment, String number, String state, String flagBit,
+            String checkPeriod, String repairLevel, String usedTime, String remark,
+            String reservedOne, String reservedTwo, String reservedThree,
+            String creationTime) {
         this.id = id;
         this.name = name;
         this.barcode = barcode;
@@ -109,239 +108,180 @@ public class Device {
         this.reservedThree = reservedThree;
         this.creationTime = creationTime;
     }
-
     @Generated(hash = 1469582394)
     public Device() {
     }
-
     public String getId() {
         return this.id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
-
     public String getName() {
         return this.name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public String getBarcode() {
         return this.barcode;
     }
-
     public void setBarcode(String barcode) {
         this.barcode = barcode;
     }
-
     public String getClassify() {
         return this.classify;
     }
-
     public void setClassify(String classify) {
         this.classify = classify;
     }
-
     public String getPosition() {
         return this.position;
     }
-
     public void setPosition(String position) {
         this.position = position;
     }
-
     public String getBuyDate() {
         return this.buyDate;
     }
-
     public void setBuyDate(String buyDate) {
         this.buyDate = buyDate;
     }
-
     public String getUseDate() {
         return this.useDate;
     }
-
     public void setUseDate(String useDate) {
         this.useDate = useDate;
     }
-
     public String getKeepYears() {
         return this.keepYears;
     }
-
     public void setKeepYears(String keepYears) {
         this.keepYears = keepYears;
     }
-
     public String getMaintenanceFactory() {
         return this.maintenanceFactory;
     }
-
     public void setMaintenanceFactory(String maintenanceFactory) {
         this.maintenanceFactory = maintenanceFactory;
     }
-
     public String getMaintenanceFactoryId() {
         return this.maintenanceFactoryId;
     }
-
     public void setMaintenanceFactoryId(String maintenanceFactoryId) {
         this.maintenanceFactoryId = maintenanceFactoryId;
     }
-
     public String getType() {
         return this.type;
     }
-
     public void setType(String type) {
         this.type = type;
     }
-
     public String getModel() {
         return this.model;
     }
-
     public void setModel(String model) {
         this.model = model;
     }
-
     public String getManufacturer() {
         return this.manufacturer;
     }
-
     public void setManufacturer(String manufacturer) {
         this.manufacturer = manufacturer;
     }
-
     public String getSupplier() {
         return this.supplier;
     }
-
     public void setSupplier(String supplier) {
         this.supplier = supplier;
     }
-
     public String getManagementUnit() {
         return this.managementUnit;
     }
-
     public void setManagementUnit(String managementUnit) {
         this.managementUnit = managementUnit;
     }
-
     public String getResponsibilityOffice() {
         return this.responsibilityOffice;
     }
-
     public void setResponsibilityOffice(String responsibilityOffice) {
         this.responsibilityOffice = responsibilityOffice;
     }
-
     public String getUseStation() {
         return this.useStation;
     }
-
     public void setUseStation(String useStation) {
         this.useStation = useStation;
     }
-
     public String getEquipDepartment() {
         return this.equipDepartment;
     }
-
     public void setEquipDepartment(String equipDepartment) {
         this.equipDepartment = equipDepartment;
     }
-
     public String getNumber() {
         return this.number;
     }
-
     public void setNumber(String number) {
         this.number = number;
     }
-
     public String getState() {
         return this.state;
     }
-
     public void setState(String state) {
         this.state = state;
     }
-
     public String getFlagBit() {
         return this.flagBit;
     }
-
     public void setFlagBit(String flagBit) {
         this.flagBit = flagBit;
     }
-
     public String getCheckPeriod() {
         return this.checkPeriod;
     }
-
     public void setCheckPeriod(String checkPeriod) {
         this.checkPeriod = checkPeriod;
     }
-
     public String getRepairLevel() {
         return this.repairLevel;
     }
-
     public void setRepairLevel(String repairLevel) {
         this.repairLevel = repairLevel;
     }
-
     public String getUsedTime() {
         return this.usedTime;
     }
-
     public void setUsedTime(String usedTime) {
         this.usedTime = usedTime;
     }
-
     public String getRemark() {
         return this.remark;
     }
-
     public void setRemark(String remark) {
         this.remark = remark;
     }
-
     public String getReservedOne() {
         return this.reservedOne;
     }
-
     public void setReservedOne(String reservedOne) {
         this.reservedOne = reservedOne;
     }
-
     public String getReservedTwo() {
         return this.reservedTwo;
     }
-
     public void setReservedTwo(String reservedTwo) {
         this.reservedTwo = reservedTwo;
     }
-
     public String getReservedThree() {
         return this.reservedThree;
     }
-
     public void setReservedThree(String reservedThree) {
         this.reservedThree = reservedThree;
     }
-
     public String getCreationTime() {
         return this.creationTime;
     }
-
     public void setCreationTime(String creationTime) {
         this.creationTime = creationTime;
     }

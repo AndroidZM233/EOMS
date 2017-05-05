@@ -61,9 +61,13 @@ public class MainActivity extends MVPBaseActivity<MainContract.View, MainPresent
 
     @Override
     public void changeTvCheckImage() {
-        Drawable blueCheck = getResources().getDrawable(R.drawable.check_blue);
-        blueCheck.setBounds(0, 0, blueCheck.getMinimumWidth(), blueCheck.getMinimumHeight());
-        tv_check.setCompoundDrawables(null, blueCheck, null, null);
+//        Drawable blueCheck = getResources().getDrawable(R.drawable.check_blue);
+//        blueCheck.setBounds(0, 0, blueCheck.getMinimumWidth(), blueCheck.getMinimumHeight());
+//        tv_check.setCompoundDrawables(null, blueCheck, null, null);
+
+        Drawable redCheck = getResources().getDrawable(R.drawable.check_red);
+        redCheck.setBounds(0, 0, redCheck.getMinimumWidth(), redCheck.getMinimumHeight());
+        tv_check.setCompoundDrawables(null, redCheck, null, null);
         Drawable blackRepair = getResources().getDrawable(R.drawable.repair_black);
         blackRepair.setBounds(0, 0, blackRepair.getMinimumWidth(), blackRepair.getMinimumHeight());
         tv_repair.setCompoundDrawables(null, blackRepair, null, null);
@@ -80,9 +84,12 @@ public class MainActivity extends MVPBaseActivity<MainContract.View, MainPresent
         Drawable blackCheck = getResources().getDrawable(R.drawable.check_balck);
         blackCheck.setBounds(0, 0, blackCheck.getMinimumWidth(), blackCheck.getMinimumHeight());
         tv_check.setCompoundDrawables(null, blackCheck, null, null);
-        Drawable blueRepair = getResources().getDrawable(R.drawable.repair_blue);
-        blueRepair.setBounds(0, 0, blueRepair.getMinimumWidth(), blueRepair.getMinimumHeight());
-        tv_repair.setCompoundDrawables(null, blueRepair, null, null);
+//        Drawable blueRepair = getResources().getDrawable(R.drawable.repair_blue);
+//        blueRepair.setBounds(0, 0, blueRepair.getMinimumWidth(), blueRepair.getMinimumHeight());
+//        tv_repair.setCompoundDrawables(null, blueRepair, null, null);
+        Drawable redRepair = getResources().getDrawable(R.drawable.repair_red);
+        redRepair.setBounds(0, 0, redRepair.getMinimumWidth(), redRepair.getMinimumHeight());
+        tv_repair.setCompoundDrawables(null, redRepair, null, null);
         Drawable blackMenu = getResources().getDrawable(R.drawable.menu_black);
         blackMenu.setBounds(0, 0, blackMenu.getMinimumWidth(), blackMenu.getMinimumHeight());
         tv_menu.setCompoundDrawables(null, blackMenu, null, null);
@@ -99,9 +106,12 @@ public class MainActivity extends MVPBaseActivity<MainContract.View, MainPresent
         Drawable blackRepair = getResources().getDrawable(R.drawable.repair_black);
         blackRepair.setBounds(0, 0, blackRepair.getMinimumWidth(), blackRepair.getMinimumHeight());
         tv_repair.setCompoundDrawables(null, blackRepair, null, null);
-        Drawable blueMenu = getResources().getDrawable(R.drawable.menu_blue);
-        blueMenu.setBounds(0, 0, blueMenu.getMinimumWidth(), blueMenu.getMinimumHeight());
-        tv_menu.setCompoundDrawables(null, blueMenu, null, null);
+//        Drawable blueMenu = getResources().getDrawable(R.drawable.menu_blue);
+//        blueMenu.setBounds(0, 0, blueMenu.getMinimumWidth(), blueMenu.getMinimumHeight());
+//        tv_menu.setCompoundDrawables(null, blueMenu, null, null);
+        Drawable redMenu = getResources().getDrawable(R.drawable.menu_red);
+        redMenu.setBounds(0, 0, redMenu.getMinimumWidth(), redMenu.getMinimumHeight());
+        tv_menu.setCompoundDrawables(null, redMenu, null, null);
 
         closeFragment();
         openFragment(new MenuFragment());

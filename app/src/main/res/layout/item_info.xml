@@ -41,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="请扫描或选择"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/deep_red"
                     android:textSize="18sp" />
 
             </LinearLayout>
@@ -70,7 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="请扫描或选择"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/deep_red"
                     android:textSize="18sp" />
 
             </LinearLayout>
@@ -99,7 +99,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="请扫描或选择"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/deep_red"
                     android:textSize="18sp" />
 
             </LinearLayout>
@@ -128,7 +128,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="请扫描或选择"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/deep_red"
                     android:textSize="18sp" />
 
             </LinearLayout>
@@ -157,7 +157,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="请扫描或选择"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/deep_red"
                     android:textSize="18sp" />
 
             </LinearLayout>

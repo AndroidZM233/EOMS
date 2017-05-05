@@ -13,15 +13,15 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:layout_marginTop="10dp"
         android:id="@+id/btn_commit"
-        android:text="提交"
-        android:textSize="15sp"
-        android:textColor="@color/white"
-        android:background="@drawable/deep_blue_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_marginTop="10dp"
+        android:background="@drawable/deep_red_btn"
+        android:text="提交"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
 </LinearLayout>

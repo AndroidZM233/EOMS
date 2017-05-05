@@ -26,7 +26,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/deep_blue_btn"
+                android:background="@drawable/deep_red_btn"
                 android:text="提交"
                 android:textColor="@color/white"
                 android:textSize="15sp" />

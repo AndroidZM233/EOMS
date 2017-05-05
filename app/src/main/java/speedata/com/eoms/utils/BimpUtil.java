@@ -120,11 +120,24 @@ public class BimpUtil {
 
     }
 
+    //查看文件夹下是否有指定文件
+    public static String findFileName(String path,String name){
+        File file = new File(path);
+        String[] list = file.list();
+        for (int i = 0; i < list.length; i++) {
+            boolean contains = list[i].contains(name);
+            if (contains){
+                return list[i];
+            }
+        }
+        return null;
+    }
+
 
     public static void writeContent(String path, String str) {
         OutputStreamWriter pw = null;//定义一个流
         try {
-            pw = new OutputStreamWriter(new FileOutputStream(path), "UTF-8");//确认流的输出文件和编码格式，此过程创建了“test.txt”实例
+            pw = new OutputStreamWriter(new FileOutputStream(path,true), "UTF-8");//确认流的输出文件和编码格式，此过程创建了“test.txt”实例
             pw.write(str);//将要写入文件的内容，可以多次write
             pw.close();//关闭流
         } catch (UnsupportedEncodingException e) {

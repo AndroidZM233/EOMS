@@ -22,6 +22,7 @@ import speedata.com.eoms.model.ImageItem;
 import speedata.com.eoms.ui.showphoto.ShowPhotoActivity;
 import speedata.com.eoms.utils.BimpUtil;
 import speedata.com.eoms.utils.FileUtil;
+import speedata.com.eoms.utils.GetTimeUtils;
 import xyz.reginer.baseadapter.BaseAdapterHelper;
 import xyz.reginer.baseadapter.CommonRvAdapter;
 
@@ -46,6 +47,12 @@ public class RVAdapter extends CommonRvAdapter<RVBean> {
     @Override
     public void convert(BaseAdapterHelper helper, final RVBean item, final int outPosition) {
         final String orderNumber = item.getOrderNumber();
+        helper.setText(R.id.tv_name,item.getName());
+        helper.setText(R.id.tv_type,item.getType());
+        helper.setText(R.id.tv_position,item.getPosition());
+        helper.setText(R.id.tv_responsible,item.getResponsible());
+        helper.setText(R.id.tv_repair,item.getRepair());
+
         if (sections.size() < rvList.size()) {
             MyApplication.getInstance().selectBitmap.clear();
             getOrderNumPhoto(orderNumber);
@@ -78,6 +85,7 @@ public class RVAdapter extends CommonRvAdapter<RVBean> {
                 }
             }
         });
+
     }
 
     private void getOrderNumPhoto(String orderNumber) {
@@ -99,7 +107,7 @@ public class RVAdapter extends CommonRvAdapter<RVBean> {
     }
 
     public boolean onActicityResultInAdapter(Intent data) {
-        String fileName = String.valueOf(System.currentTimeMillis());
+        String fileName = GetTimeUtils.getTimeStyle1() + "_" + MyApplication.deviceId;
         Bitmap bm = (Bitmap) data.getExtras().get("data");
         String orderNumber = rvList.get(selectPosition).getOrderNumber();
         if (BimpUtil.saveBitmap(bm, orderNumber, fileName)) {

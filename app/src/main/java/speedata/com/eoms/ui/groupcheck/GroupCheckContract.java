@@ -1,7 +1,8 @@
 package speedata.com.eoms.ui.groupcheck;
 
-import android.content.Context;
+import java.util.List;
 
+import speedata.com.eoms.bean.RVBean;
 import speedata.com.eoms.mvp.BasePresenter;
 import speedata.com.eoms.mvp.BaseView;
 
@@ -16,6 +17,9 @@ public class GroupCheckContract {
     }
 
     interface  Presenter extends BasePresenter<View> {
-        
+        //更新界面数据
+        List<RVBean> initData(String name);
+
+        boolean saveInspectionTXT(String orderNumber, int state, String repairContent);
     }
 }

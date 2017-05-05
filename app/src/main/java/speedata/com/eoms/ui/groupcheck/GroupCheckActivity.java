@@ -9,7 +9,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,23 +44,9 @@ public class GroupCheckActivity extends MVPBaseActivity<GroupCheckContract.View,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_groupcheck);
         initView();
-        initData();
+        List<RVBean> rvBeanList = mPresenter.initData(getIntent().getStringExtra("groupName"));
+        mList.addAll(rvBeanList);
         initRV();
-    }
-
-    private void initData() {
-        RVBean rvBean = new RVBean();
-        rvBean.setName("1");
-        rvBean.setPosition("1");
-        rvBean.setType("1");
-        rvBean.setOrderNumber("1");
-        mList.add(rvBean);
-        RVBean rvBean2 = new RVBean();
-        rvBean2.setName("2");
-        rvBean2.setPosition("2");
-        rvBean2.setType("2");
-        rvBean2.setOrderNumber("2");
-        mList.add(rvBean2);
     }
 
     private void initView() {
@@ -88,7 +77,47 @@ public class GroupCheckActivity extends MVPBaseActivity<GroupCheckContract.View,
                 GroupCheckActivity.this.finish();
                 break;
             case R.id.btn_commit:
+                showLoading("提交中...");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        boolean inspectionTXT;
+                        for (int i = 0; i < rv_content.getChildCount(); i++) {
+                            View childAt = rv_content.getChildAt(i);
+                            EditText editText = (EditText) childAt.findViewById(R.id.et_remark);
+                            RadioButton radioButton = (RadioButton) childAt
+                                    .findViewById(R.id.radio_normal);
+                            String etStr = editText.getText().toString();
+                            boolean checked = radioButton.isChecked();
+                            if (checked) {
+                                inspectionTXT = mPresenter.saveInspectionTXT(mList.get(i)
+                                        .getOrderNumber(), 0, etStr);
+                            } else {
+                                inspectionTXT = mPresenter.saveInspectionTXT(mList.get(i)
+                                        .getOrderNumber(), 1, etStr);
+                            }
+                            if (!inspectionTXT) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(GroupCheckActivity.this,
+                                                "提交失败，文件保存失败!", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                });
+                            }
+                        }
 
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(GroupCheckActivity.this, "提交成功！!"
+                                        , Toast.LENGTH_SHORT).show();
+                                GroupCheckActivity.this.finish();
+                            }
+                        });
+                    }
+                }).start();
                 break;
         }
     }
@@ -108,7 +137,7 @@ public class GroupCheckActivity extends MVPBaseActivity<GroupCheckContract.View,
                     return;
                 }
                 boolean result = mAdapter.onActicityResultInAdapter(data);
-                if (!result){
+                if (!result) {
                     showToast("图片保存失败！");
                 }
                 break;

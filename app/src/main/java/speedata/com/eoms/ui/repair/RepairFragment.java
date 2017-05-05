@@ -1,15 +1,16 @@
 package speedata.com.eoms.ui.repair;
 
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -18,12 +19,16 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.unnamed.b.atv.model.TreeNode;
+import com.unnamed.b.atv.view.AndroidTreeView;
+
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 
 import speedata.com.eoms.R;
 import speedata.com.eoms.adapter.GridAdapter;
+import speedata.com.eoms.adapter.IconTreeItemHolder;
 import speedata.com.eoms.application.AppConfig;
 import speedata.com.eoms.application.MyApplication;
 import speedata.com.eoms.bean.Device;
@@ -35,6 +40,7 @@ import speedata.com.eoms.ui.onecheck.OnecheckActivity;
 import speedata.com.eoms.ui.showphoto.ShowPhotoActivity;
 import speedata.com.eoms.utils.BimpUtil;
 import speedata.com.eoms.utils.GetTimeUtils;
+import speedata.com.eoms.utils.PlaySoundPool;
 import speedata.com.eoms.utils.ScanUtil;
 import speedata.com.eoms.view.MyGridView;
 
@@ -62,6 +68,8 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
     private String orderNumber;
     private static final int TAKE_PICTURE = 0x000001;
     private ScanUtil scanUtil;
+    private AndroidTreeView androidTreeView;
+    private AlertDialog dialog;
 
 
     @Override
@@ -96,7 +104,7 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
         btn_top_left.setVisibility(View.INVISIBLE);
         tv_title.setText("报修");
         radioGroup.setVisibility(View.GONE);
-        if (adapter==null){
+        if (adapter == null) {
             adapter = new GridAdapter((MainActivity) getActivity());
         }
         gridview_photo.setAdapter(adapter);
@@ -114,16 +122,16 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
                     tv_position.setText(list.get(0).getPosition());
                     tv_responsible.setText(list.get(0).getResponsibilityOffice());
                     tv_repair.setText(list.get(0).getMaintenanceFactory());
-                    orderNumber=list.get(0).getId();
-//                    PlaySoundPool.getPlaySoundPool((MainActivity) getActivity()).playLaser();
+                    orderNumber = list.get(0).getId();
+                    PlaySoundPool.getPlaySoundPool((MainActivity) getActivity()).playLaser();
 
                     BimpUtil.max = 0;
                     MyApplication.getInstance().selectBitmap.clear();
                     mPresenter.getOrderNumPhoto(orderNumber);//获取当前单号下的照片
-                    adapter.update(handler);
+                    adapter.notifyDataSetChanged();
 
                 } else {
-//                    PlaySoundPool.getPlaySoundPool((MainActivity) getActivity()).playError();
+                    PlaySoundPool.getPlaySoundPool((MainActivity) getActivity()).playError();
                 }
             }
         });
@@ -138,20 +146,20 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_commit:
-                if (TextUtils.isEmpty(orderNumber)){
-                    Toast.makeText((MainActivity) getActivity(),"请先扫描或者选择!"
-                            ,Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(orderNumber)) {
+                    Toast.makeText((MainActivity) getActivity(), "请先扫描或者选择!"
+                            , Toast.LENGTH_SHORT).show();
                     return;
                 }
                 final String repairContent = et_remark.getText().toString();
-                if (TextUtils.isEmpty(repairContent)){
-                    Toast.makeText((MainActivity) getActivity(),"请填写备注（故障内容）!"
-                            ,Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(repairContent)) {
+                    Toast.makeText((MainActivity) getActivity(), "请填写备注（故障内容）!"
+                            , Toast.LENGTH_SHORT).show();
                     return;
                 }
-                showLoading((MainActivity) getActivity(),"提交中...");
+                showLoading((MainActivity) getActivity(), "提交中...");
                 new Thread(new Runnable() {
 
                     @Override
@@ -163,14 +171,14 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
                         ((MainActivity) getActivity()).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if (repairTXT){
-                                    Toast.makeText((MainActivity) getActivity(),"提交成功！!"
-                                            ,Toast.LENGTH_SHORT).show();
-//                                    closeFragment();
+                                if (repairTXT) {
+                                    Toast.makeText((MainActivity) getActivity(), "提交成功！!"
+                                            , Toast.LENGTH_SHORT).show();
+                                    closeFragment();
                                     openFragment(new RepairFragment());
-                                }else {
-                                    Toast.makeText((MainActivity) getActivity(),"提交失败，文件保存失败!"
-                                            ,Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText((MainActivity) getActivity(), "提交失败，文件保存失败!"
+                                            , Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -178,34 +186,72 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
                 }).start();
 
                 break;
+
+            case R.id.tv_select:
+                mPresenter.getTreeData();
+                break;
         }
     }
 
+    private TreeNode.TreeNodeClickListener nodeClickListener = new TreeNode.TreeNodeClickListener() {
+        @Override
+        public void onClick(TreeNode node, Object value) {
+            IconTreeItemHolder.IconTreeItem item = (IconTreeItemHolder.IconTreeItem) value;
+            int level = node.getLevel();
+            if (level == 2) {
+                Device unique = MyApplication.getDaoInstant().getDeviceDao().queryBuilder()
+                        .where(DeviceDao.Properties.Name.eq(item.text)).unique();
+                if (unique != null) {
+                    tv_name.setText(unique.getName());
+                    tv_type.setText(unique.getType());
+                    tv_position.setText(unique.getPosition());
+                    tv_responsible.setText(unique.getResponsibilityOffice());
+                    tv_repair.setText(unique.getMaintenanceFactory());
+                    orderNumber = unique.getId();
+//                    PlaySoundPool.getPlaySoundPool((MainActivity) getActivity()).playLaser();
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (adapter != null) {
-            adapter.update(handler);
-        }
-    }
-
-
-    Handler handler = new Handler(Looper.getMainLooper()) {
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 1:
+                    BimpUtil.max = 0;
+                    MyApplication.getInstance().selectBitmap.clear();
+                    mPresenter.getOrderNumPhoto(orderNumber);//获取当前单号下的照片
                     adapter.notifyDataSetChanged();
-                    break;
+                }
+
+                dialog.cancel();
             }
-            super.handleMessage(msg);
         }
     };
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.expandAll:
+                androidTreeView.expandAll();
+                break;
+
+            case R.id.collapseAll:
+                androidTreeView.collapseAll();
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
+
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (TextUtils.isEmpty(orderNumber)){
-            Toast.makeText((MainActivity) getActivity(),"请先扫描或者选择!",Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(orderNumber)) {
+            Toast.makeText((MainActivity) getActivity(), "请先扫描或者选择!", Toast.LENGTH_SHORT).show();
             return;
         }
         if (position == MyApplication.getInstance().selectBitmap.size()) {
@@ -226,18 +272,18 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
                 if (resultCode != OnecheckActivity.RESULT_OK) {
                     return;
                 }
-                String fileName = GetTimeUtils.getTimeStyle1()+"_"+MyApplication.deviceId;
+                String fileName = GetTimeUtils.getTimeStyle1() + "_" + MyApplication.deviceId;
                 Bitmap bm = (Bitmap) data.getExtras().get("data");
                 if (BimpUtil.saveBitmap(bm, orderNumber, fileName)) {
                     ImageItem takePhoto = new ImageItem();
                     takePhoto.setBitmap(bm);
-                    takePhoto.setImagePath(AppConfig.getTempDataPath() + "/" + orderNumber + "/" + fileName + ".bmp");
+                    takePhoto.setImagePath(AppConfig.getTempDataPath() + "/" + orderNumber + "/" + fileName + ".png");
                     MyApplication.getInstance().selectBitmap.add(takePhoto);
                     if (adapter != null) {
-                        adapter.update(handler);
+                        adapter.notifyDataSetChanged();
                     }
                 } else {
-                    Toast.makeText((MainActivity) getActivity(),"图片保存失败！",Toast.LENGTH_SHORT).show();
+                    Toast.makeText((MainActivity) getActivity(), "图片保存失败！", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -245,4 +291,25 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
     }
 
 
+    @Override
+    public void returnTreeNode(TreeNode root) {
+        AlertDialog.Builder builder = new AlertDialog.Builder((MainActivity) getActivity());
+        builder.setTitle("选择设备");
+        builder.setCancelable(false);
+        androidTreeView = new AndroidTreeView((MainActivity) getActivity(), root);
+        androidTreeView.setDefaultAnimation(true);
+        androidTreeView.setDefaultContainerStyle(R.style.TreeNodeStyleCustom);
+        androidTreeView.setDefaultViewHolder(IconTreeItemHolder.class);
+        androidTreeView.setDefaultNodeClickListener(nodeClickListener);
+        View view = androidTreeView.getView();
+        builder.setView(view);
+        builder.setNegativeButton("取消", null);
+        dialog = builder.create();
+        dialog.show();
+    }
+
+    @Override
+    public void showFailedInfo(String msg) {
+        Toast.makeText((MainActivity) getActivity(), msg, Toast.LENGTH_SHORT).show();
+    }
 }

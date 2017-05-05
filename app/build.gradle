@@ -36,4 +36,11 @@ dependencies {
     compile 'org.greenrobot:greendao:3.2.0'
     compile 'com.android.support:recyclerview-v7:25.0.1'
     compile 'xyz.reginer.baseadapter:baseadapter:1.1.2'
+
+    compile 'com.github.bmelnychuk:atv:1.2.+'
+    compile 'com.github.johnkil.print:print:1.2.2'
+
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 }

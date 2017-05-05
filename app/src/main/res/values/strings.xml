@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">EOMS</string>
+
+    <string name="ic_folder">&#xe09d;</string>
+    <string name="ic_keyboard_arrow_right">&#xe0c7;</string>
+    <string name="ic_email">&#xe087;</string>
+    <string name="ic_laptop">&#xe0d4;</string>
+
 </resources>

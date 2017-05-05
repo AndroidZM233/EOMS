@@ -1,8 +1,6 @@
 package speedata.com.eoms.adapter;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +9,6 @@ import android.widget.ImageView;
 
 import speedata.com.eoms.R;
 import speedata.com.eoms.application.MyApplication;
-import speedata.com.eoms.utils.BimpUtil;
 
 /**
  * Created by 张明_ on 2017/4/21.
@@ -34,9 +31,9 @@ public class GridAdapter extends BaseAdapter {
         inflater = LayoutInflater.from(context);
     }
 
-    public void update(Handler handler) {
-        loading(handler);
-    }
+//    public void update(Handler handler) {
+//        loading(handler);
+//    }
 
     public int getCount() {
         return (MyApplication.getInstance().selectBitmap.size() + 1);
@@ -89,24 +86,32 @@ public class GridAdapter extends BaseAdapter {
 
 
 
-    public void loading(final Handler handler) {
-        new Thread(new Runnable() {
-            public void run() {
-                while (true) {
-                    if (BimpUtil.max == MyApplication.getInstance().selectBitmap.size()) {
-                        Message message = new Message();
-                        message.what = 1;
-                        handler.sendMessage(message);
-                        break;
-                    } else {
-                        BimpUtil.max += 1;
-                        Message message = new Message();
-                        message.what = 1;
-                        handler.sendMessage(message);
-                    }
-                }
-            }
-        }).start();
-    }
+//    public void loading(final Handler handler) {
+//        ScanThread mScanThread = new ScanThread(handler);
+//        mScanThread.start();
+//    }
+//
+//    private class ScanThread extends Thread  {
+//        Handler handler;
+//        ScanThread(Handler handler){
+//            this.handler = handler;
+//        }
+//        @Override
+//        public void run() {
+//            while (true) {
+//                if (BimpUtil.max == MyApplication.getInstance().selectBitmap.size()) {
+//                    Message message = new Message();
+//                    message.what = 1;
+//                    handler.sendMessage(message);
+//                    break;
+//                } else {
+//                    BimpUtil.max += 1;
+//                    Message message = new Message();
+//                    message.what = 1;
+//                    handler.sendMessage(message);
+//                }
+//            }
+//        }
+//    };
 
 }

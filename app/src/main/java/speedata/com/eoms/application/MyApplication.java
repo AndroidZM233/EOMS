@@ -34,9 +34,10 @@ public class MyApplication extends Application {
         singleton = this;
         setupDatabase();
         initData();
-        deviceId = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE))
-                .getDeviceId();
+        deviceId = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getDeviceId();
     }
+
+
     public static MyApplication getInstance() {
         return singleton;
     }

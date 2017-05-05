@@ -44,7 +44,13 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
             e.printStackTrace();
             mView.changeImportUi("导入故障类型文件失败！");
         }
-
+        try {
+            //导入组巡文件
+            importPackage();
+        } catch (Exception e) {
+            e.printStackTrace();
+            mView.changeImportUi("导入组巡文件失败！");
+        }
         mView.changeImportUi("导入成功！");
 
     }
