@@ -12,6 +12,7 @@ import android.widget.TextView;
 import speedata.com.eoms.R;
 import speedata.com.eoms.mvp.MVPBaseActivity;
 import speedata.com.eoms.ui.toup.ToUpFragment;
+import speedata.com.eoms.ui.uped.UpedFragment;
 
 
 /**
@@ -67,9 +68,13 @@ public class RecordActivity extends MVPBaseActivity<RecordContract.View, RecordP
 
     @Override
     public void changeToUpImage() {
-        Drawable blueToUp = getResources().getDrawable(R.drawable.toup_blue);
-        blueToUp.setBounds(0, 0, blueToUp.getMinimumWidth(), blueToUp.getMinimumHeight());
-        tv_toup.setCompoundDrawables(null, blueToUp, null, null);
+//        Drawable blueToUp = getResources().getDrawable(R.drawable.toup_blue);
+//        blueToUp.setBounds(0, 0, blueToUp.getMinimumWidth(), blueToUp.getMinimumHeight());
+//        tv_toup.setCompoundDrawables(null, blueToUp, null, null);
+
+        Drawable redToUp = getResources().getDrawable(R.drawable.toup_red);
+        redToUp.setBounds(0, 0, redToUp.getMinimumWidth(), redToUp.getMinimumHeight());
+        tv_toup.setCompoundDrawables(null, redToUp, null, null);
         Drawable blackUped = getResources().getDrawable(R.drawable.uped);
         blackUped.setBounds(0, 0, blackUped.getMinimumWidth(), blackUped.getMinimumHeight());
         tv_uped.setCompoundDrawables(null, blackUped, null, null);
@@ -82,8 +87,13 @@ public class RecordActivity extends MVPBaseActivity<RecordContract.View, RecordP
         Drawable blackToUp = getResources().getDrawable(R.drawable.toup);
         blackToUp.setBounds(0, 0, blackToUp.getMinimumWidth(), blackToUp.getMinimumHeight());
         tv_toup.setCompoundDrawables(null, blackToUp, null, null);
-        Drawable blueUped = getResources().getDrawable(R.drawable.uped_blue);
-        blueUped.setBounds(0, 0, blueUped.getMinimumWidth(), blueUped.getMinimumHeight());
-        tv_uped.setCompoundDrawables(null, blueUped, null, null);
+//        Drawable blueUped = getResources().getDrawable(R.drawable.uped_blue);
+//        blueUped.setBounds(0, 0, blueUped.getMinimumWidth(), blueUped.getMinimumHeight());
+//        tv_uped.setCompoundDrawables(null, blueUped, null, null);
+
+        Drawable redUped = getResources().getDrawable(R.drawable.uped_red);
+        redUped.setBounds(0, 0, redUped.getMinimumWidth(), redUped.getMinimumHeight());
+        tv_uped.setCompoundDrawables(null, redUped, null, null);
+        openFragment(new UpedFragment());
     }
 }

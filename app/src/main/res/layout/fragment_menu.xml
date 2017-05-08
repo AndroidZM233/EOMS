@@ -72,6 +72,7 @@
             android:textSize="15sp" />
 
         <TextView
+            android:visibility="gone"
             android:background="@drawable/selector_item_whitetoblue"
             android:id="@+id/tv_menu_auto"
             android:layout_width="match_parent"
@@ -83,7 +84,18 @@
             android:gravity="center_vertical"
             android:text="自动导入导出时间间隔"
             android:textSize="15sp" />
-
+        <TextView
+            android:background="@drawable/selector_item_whitetoblue"
+            android:id="@+id/tv_menu_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:drawableLeft="@drawable/pwd"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:text="密码修改"
+            android:textSize="15sp" />
         <TextView
             android:background="@drawable/selector_item_whitetoblue"
             android:id="@+id/tv_menu_version"

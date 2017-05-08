@@ -27,12 +27,12 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="50dp"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <LinearLayout
             android:id="@+id/linearlayout1"
             android:gravity="center"

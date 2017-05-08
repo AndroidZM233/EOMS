@@ -1,4 +1,4 @@
-package speedata.com.eoms.ui.toup;
+package speedata.com.eoms.ui.uped;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10,19 +10,18 @@ import speedata.com.eoms.utils.GetTimeUtils;
 
 /**
  * MVPPlugin
- * 邮箱 784787081@qq.com
+ *  邮箱 784787081@qq.com
  */
 
-public class ToUpPresenter extends BasePresenterImpl<ToUpContract.View> implements ToUpContract.Presenter {
-
+public class UpedPresenter extends BasePresenterImpl<UpedContract.View> implements UpedContract.Presenter{
     @Override
     public List<ToUpRVBean> findLogFile() {
         File file = new File("/storage/emulated/0/data/HTYL/Out");
         String[] list = file.list();
         List<ToUpRVBean> timeList = new ArrayList<>();
         for (int i = 0; i < list.length; i++) {
-            boolean contains1 = list[i].contains("_inspection.log");
-            boolean contains2 = list[i].contains("_repair.log");
+            boolean contains1 = list[i].contains("_inspection_ok.log");
+            boolean contains2 = list[i].contains("_repair_ok.log");
             if (contains1 || contains2) {
                 String[] split = list[i].split("_");
                 String time = GetTimeUtils.getStrinTimeToAnotherStringTime(split[0]

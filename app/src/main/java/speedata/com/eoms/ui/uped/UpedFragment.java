@@ -1,4 +1,4 @@
-package speedata.com.eoms.ui.toup;
+package speedata.com.eoms.ui.uped;
 
 
 import android.os.Bundle;
@@ -18,10 +18,10 @@ import speedata.com.eoms.ui.record.RecordActivity;
 
 /**
  * MVPPlugin
- * 邮箱 784787081@qq.com
+ *  邮箱 784787081@qq.com
  */
 
-public class ToUpFragment extends MVPBaseFragment<ToUpContract.View, ToUpPresenter> implements ToUpContract.View {
+public class UpedFragment extends MVPBaseFragment<UpedContract.View, UpedPresenter> implements UpedContract.View {
 
     private RecyclerView rv_content;
     private ToUpRVAdapter mAdapter;

@@ -23,6 +23,7 @@ public class LoginPresenter extends BasePresenterImpl<LoginContract.View>
         if (list.size()!=0){
             if (pwd.equals(list.get(0).getPwd())){
                 MyApplication.setRealName(list.get(0).getReal_name());
+                MyApplication.setUserName(user);
                 mView.loginSuccess();
             }else {
                 mView.loginPwdFailed();

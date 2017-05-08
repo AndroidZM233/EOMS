@@ -1,5 +1,6 @@
 package speedata.com.eoms.mvp;
 
+import android.app.ActivityManager;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
@@ -8,8 +9,10 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 import speedata.com.eoms.R;
 import speedata.com.eoms.view.FlippingLoadingDialog;
@@ -74,6 +77,40 @@ public abstract class MVPBaseFragment<V extends BaseView,T extends BasePresenter
             mProgressDialog.dismiss();
         }
 
+    }
+    /**
+     * 隐藏输入法
+     */
+    public void hideInputMethod() {
+        InputMethodManager imm = (InputMethodManager) getActivity()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            // 显示或者隐藏输入法
+            View currentFocus = getActivity().getCurrentFocus();
+            if (currentFocus != null) {
+                imm.hideSoftInputFromWindow(
+                        currentFocus.getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
+    }
+
+    public boolean isServiceWork(Context mContext, String serviceName) {
+        boolean isWork = false;
+        ActivityManager myAM = (ActivityManager) mContext
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> myList = myAM.getRunningServices(40);
+        if (myList.size() <= 0) {
+            return false;
+        }
+        for (int i = 0; i < myList.size(); i++) {
+            String mName = myList.get(i).service.getClassName().toString();
+            if (mName.equals(serviceName)) {
+                isWork = true;
+                break;
+            }
+        }
+        return isWork;
     }
 
 

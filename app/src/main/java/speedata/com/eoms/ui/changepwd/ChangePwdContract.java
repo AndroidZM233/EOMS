@@ -1,8 +1,5 @@
-package speedata.com.eoms.ui.toup;
+package speedata.com.eoms.ui.changepwd;
 
-import java.util.List;
-
-import speedata.com.eoms.bean.ToUpRVBean;
 import speedata.com.eoms.mvp.BasePresenter;
 import speedata.com.eoms.mvp.BaseView;
 
@@ -11,13 +8,13 @@ import speedata.com.eoms.mvp.BaseView;
  *  邮箱 784787081@qq.com
  */
 
-public class ToUpContract {
+public class ChangePwdContract {
     interface View extends BaseView {
-        
+        void changeFailed(String string);
+        void changeSuccess(String string);
     }
 
     interface  Presenter extends BasePresenter<View> {
-        //查找记录文件
-        List<ToUpRVBean> findLogFile();
+        void changePwd(String oldPwd,String newPwd);
     }
 }

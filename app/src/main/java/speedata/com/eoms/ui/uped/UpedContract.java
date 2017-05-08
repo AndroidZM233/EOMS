@@ -1,4 +1,4 @@
-package speedata.com.eoms.ui.toup;
+package speedata.com.eoms.ui.uped;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import speedata.com.eoms.mvp.BaseView;
  *  邮箱 784787081@qq.com
  */
 
-public class ToUpContract {
+public class UpedContract {
     interface View extends BaseView {
         
     }

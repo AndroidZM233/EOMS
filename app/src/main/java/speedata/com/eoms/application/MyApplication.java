@@ -27,6 +27,7 @@ public class MyApplication extends Application {
     public List<ImageItem> selectBitmap = new ArrayList<ImageItem>();
     public static String deviceId;
     public static String realName="测试";
+    public static String userName="0000";
 
     @Override
     public void onCreate() {
@@ -68,5 +69,8 @@ public class MyApplication extends Application {
 
     public static void setRealName(String name){
         realName=name;
+    }
+    public static void setUserName(String name){
+        userName=name;
     }
 }

@@ -9,18 +9,15 @@ import org.greenrobot.greendao.annotation.Generated;
  */
 @Entity
 public class User {
-    @Id(autoincrement = true)
-    private Long id;
-
+    @Id(autoincrement = false)
     private String user_name;
 
     private String pwd;
 
     private String real_name;
 
-    @Generated(hash = 1200028930)
-    public User(Long id, String user_name, String pwd, String real_name) {
-        this.id = id;
+    @Generated(hash = 520470829)
+    public User(String user_name, String pwd, String real_name) {
         this.user_name = user_name;
         this.pwd = pwd;
         this.real_name = real_name;
@@ -28,14 +25,6 @@ public class User {
 
     @Generated(hash = 586692638)
     public User() {
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUser_name() {
@@ -61,5 +50,4 @@ public class User {
     public void setReal_name(String real_name) {
         this.real_name = real_name;
     }
-
 }
