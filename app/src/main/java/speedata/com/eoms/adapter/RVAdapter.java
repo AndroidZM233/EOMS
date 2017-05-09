@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,6 +38,8 @@ public class RVAdapter extends CommonRvAdapter<RVBean> {
     private List<Section> sections = new ArrayList<Section>();
     private List<RVBean> rvList = new ArrayList<RVBean>();
     private int selectPosition;
+    private String imagePath;
+    private String fileName;
 
     public RVAdapter(Context context, int layoutResId, List<RVBean> data) {
         super(context, layoutResId, data);
@@ -70,8 +73,23 @@ public class RVAdapter extends CommonRvAdapter<RVBean> {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectPosition = outPosition;
+
+                fileName = GetTimeUtils.getTimeStyle1() + "_" + MyApplication.deviceId;
+                String fileParentStr = AppConfig.getTempDataPath() + "/" + orderNumber + "/";
+                imagePath = fileParentStr + fileName + ".png";
+
+
                 if (position == sections.get(outPosition).getImageItemList().size()) {
                     Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    // 加载路径
+                    File file = new File(imagePath);
+                    File fileParent = new File(fileParentStr);
+                    if (!fileParent.exists()) {
+                        fileParent.mkdirs();
+                    }
+                    Uri uri = Uri.fromFile(file);
+                    // 指定存储路径，这样就可以保存原图了
+                    openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                     ((Activity) mContext).startActivityForResult(openCameraIntent, TAKE_PICTURE);
                 } else {
                     Intent intent = new Intent(mContext, ShowPhotoActivity.class);
@@ -106,21 +124,33 @@ public class RVAdapter extends CommonRvAdapter<RVBean> {
         }
     }
 
-    public boolean onActicityResultInAdapter(Intent data) {
-        String fileName = GetTimeUtils.getTimeStyle1() + "_" + MyApplication.deviceId;
-        Bitmap bm = (Bitmap) data.getExtras().get("data");
+    public boolean onActicityResultInAdapter(Context context) {
         String orderNumber = rvList.get(selectPosition).getOrderNumber();
+        Bitmap bm = BimpUtil.getimage(imagePath, 400f, 240f);
         if (BimpUtil.saveBitmap(bm, orderNumber, fileName)) {
             ImageItem takePhoto = new ImageItem();
             takePhoto.setBitmap(bm);
-            takePhoto.setImagePath(AppConfig.getTempDataPath()
-                    + "/" + orderNumber + "/" + fileName + ".png");
+            takePhoto.setImagePath(imagePath);
             sections.get(selectPosition).getImageItemList().add(takePhoto);
-            notifyDataSetChanged();
             return true;
-        } else {
+        }else {
             return false;
         }
+
+//        String fileName = GetTimeUtils.getTimeStyle1() + "_" + MyApplication.deviceId;
+//        Bitmap bm = (Bitmap) data.getExtras().get("data");
+//
+//        if (BimpUtil.saveBitmap(bm, orderNumber, fileName)) {
+//            ImageItem takePhoto = new ImageItem();
+//            takePhoto.setBitmap(bm);
+//            takePhoto.setImagePath(AppConfig.getTempDataPath()
+//                    + "/" + orderNumber + "/" + fileName + ".png");
+//            sections.get(selectPosition).getImageItemList().add(takePhoto);
+//            notifyDataSetChanged();
+//            return true;
+//        } else {
+//            return false;
+//        }
     }
 
     public void upDataUi(){

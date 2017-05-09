@@ -12,6 +12,7 @@ import speedata.com.eoms.bean.DaoSession;
 import speedata.com.eoms.bean.User;
 import speedata.com.eoms.bean.UserDao;
 import speedata.com.eoms.model.ImageItem;
+import speedata.com.eoms.utils.BimpUtil;
 
 /**
  * Created by 张明_ on 2017/4/19.
@@ -36,6 +37,8 @@ public class MyApplication extends Application {
         setupDatabase();
         initData();
         deviceId = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getDeviceId();
+        BimpUtil.isFolderExists("/storage/emulated/0/data/HTYL/Out/");
+        BimpUtil.isFolderExists("/storage/emulated/0/data/HTYL/In/");
     }
 
 

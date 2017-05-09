@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -17,6 +18,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
 
 import speedata.com.eoms.R;
 import speedata.com.eoms.adapter.GridAdapter;
@@ -52,6 +55,8 @@ public class OnecheckActivity extends MVPBaseActivity<OnecheckContract.View, One
     private TextView tv_title;
     private static final int TAKE_PICTURE = 0x000001;
     private String orderNumber = "1";
+    private String imagePath;
+    private String fileName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -138,8 +143,21 @@ public class OnecheckActivity extends MVPBaseActivity<OnecheckContract.View, One
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        fileName = GetTimeUtils.getTimeStyle1() + "_" + MyApplication.deviceId;
+        String fileParentStr = AppConfig.getTempDataPath() + "/" + orderNumber + "/";
+        imagePath = fileParentStr + fileName + ".png";
+
         if (position == MyApplication.getInstance().selectBitmap.size()) {
             Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            // 加载路径
+            File file = new File(imagePath);
+            File fileParent = new File(fileParentStr);
+            if (!fileParent.exists()) {
+                fileParent.mkdirs();
+            }
+            Uri uri = Uri.fromFile(file);
+            // 指定存储路径，这样就可以保存原图了
+            openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             startActivityForResult(openCameraIntent, TAKE_PICTURE);
         } else {
             Intent intent = new Intent(OnecheckActivity.this, ShowPhotoActivity.class);
@@ -156,19 +174,38 @@ public class OnecheckActivity extends MVPBaseActivity<OnecheckContract.View, One
                 if (resultCode != OnecheckActivity.RESULT_OK) {
                     return;
                 }
-                String fileName = GetTimeUtils.getTimeStyle1() + "_" + MyApplication.deviceId;
-                Bitmap bm = (Bitmap) data.getExtras().get("data");
-                if (BimpUtil.saveBitmap(bm, orderNumber, fileName)) {
-                    ImageItem takePhoto = new ImageItem();
-                    takePhoto.setBitmap(bm);
-                    takePhoto.setImagePath(AppConfig.getTempDataPath() + "/" + orderNumber + "/" + fileName + ".png");
-                    MyApplication.getInstance().selectBitmap.add(takePhoto);
-                    if (adapter != null) {
-                        adapter.notifyDataSetChanged();
+                showLoading("保存中...");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Bitmap bm = BimpUtil.getimage(imagePath, 400f, 240f);
+                        if (BimpUtil.saveBitmap(bm, orderNumber, fileName)) {
+                            ImageItem takePhoto = new ImageItem();
+                            takePhoto.setBitmap(bm);
+                            takePhoto.setImagePath(imagePath);
+                            MyApplication.getInstance().selectBitmap.add(takePhoto);
+                            if (adapter != null) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                });
+                            }
+                        } else {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(OnecheckActivity.this,
+                                            "图片保存失败！", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                        }
+                        hideLoading();
                     }
-                } else {
-                    showToast("图片保存失败！");
-                }
+                }).start();
+
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);

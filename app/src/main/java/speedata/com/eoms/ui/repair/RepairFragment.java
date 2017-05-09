@@ -4,6 +4,7 @@ package speedata.com.eoms.ui.repair;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -24,6 +25,7 @@ import com.unnamed.b.atv.view.AndroidTreeView;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.io.File;
 import java.util.List;
 
 import speedata.com.eoms.R;
@@ -70,6 +72,8 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
     private ScanUtil scanUtil;
     private AndroidTreeView androidTreeView;
     private AlertDialog dialog;
+    private String imagePath;
+    private String fileName;
 
 
     @Override
@@ -135,6 +139,8 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
                 }
             }
         });
+
+
     }
 
 
@@ -254,8 +260,22 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
             Toast.makeText((MainActivity) getActivity(), "请先扫描或者选择!", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        fileName = GetTimeUtils.getTimeStyle1() + "_" + MyApplication.deviceId;
+        String fileParentStr = AppConfig.getTempDataPath() + "/" + orderNumber + "/";
+        imagePath = fileParentStr + fileName + ".png";
+
         if (position == MyApplication.getInstance().selectBitmap.size()) {
             Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            // 加载路径
+            File file = new File(imagePath);
+            File fileParent=new File(fileParentStr);
+            if (!fileParent.exists()){
+                fileParent.mkdirs();
+            }
+            Uri uri = Uri.fromFile(file);
+            // 指定存储路径，这样就可以保存原图了
+            openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             startActivityForResult(openCameraIntent, TAKE_PICTURE);
         } else {
             Intent intent = new Intent((MainActivity) getActivity(), ShowPhotoActivity.class);
@@ -272,19 +292,38 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
                 if (resultCode != OnecheckActivity.RESULT_OK) {
                     return;
                 }
-                String fileName = GetTimeUtils.getTimeStyle1() + "_" + MyApplication.deviceId;
-                Bitmap bm = (Bitmap) data.getExtras().get("data");
-                if (BimpUtil.saveBitmap(bm, orderNumber, fileName)) {
-                    ImageItem takePhoto = new ImageItem();
-                    takePhoto.setBitmap(bm);
-                    takePhoto.setImagePath(AppConfig.getTempDataPath() + "/" + orderNumber + "/" + fileName + ".png");
-                    MyApplication.getInstance().selectBitmap.add(takePhoto);
-                    if (adapter != null) {
-                        adapter.notifyDataSetChanged();
+                showLoading(getActivity(),"保存中...");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Bitmap bm =BimpUtil.getimage(imagePath,200f,120f);
+                        if (BimpUtil.saveBitmap(bm, orderNumber, fileName)) {
+                            ImageItem takePhoto = new ImageItem();
+                            takePhoto.setBitmap(bm);
+                            takePhoto.setImagePath(imagePath);
+                            MyApplication.getInstance().selectBitmap.add(takePhoto);
+                            if (adapter != null) {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                });
+                            }
+                        } else {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText((MainActivity) getActivity(),
+                                            "图片保存失败！", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                        }
+                        hideLoading();
                     }
-                } else {
-                    Toast.makeText((MainActivity) getActivity(), "图片保存失败！", Toast.LENGTH_SHORT).show();
-                }
+                }).start();
+
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);

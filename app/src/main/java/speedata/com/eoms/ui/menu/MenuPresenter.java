@@ -157,7 +157,8 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
                 }
                 int etTime = Integer.parseInt(string);
                 SharedXmlUtil.getInstance(context).write("cacheTime",etTime);
-                SharedXmlUtil.getInstance(context).write("cacheDate",System.currentTimeMillis());
+                long value = System.currentTimeMillis();
+                SharedXmlUtil.getInstance(context).write("cacheDate", value);
                 imm.hideSoftInputFromWindow(editText.getWindowToken(),0);
                 mView.changeText(String.valueOf(etTime));
             }

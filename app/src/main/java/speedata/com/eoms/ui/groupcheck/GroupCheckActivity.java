@@ -136,10 +136,30 @@ public class GroupCheckActivity extends MVPBaseActivity<GroupCheckContract.View,
                 if (resultCode != GroupCheckActivity.RESULT_OK) {
                     return;
                 }
-                boolean result = mAdapter.onActicityResultInAdapter(data);
-                if (!result) {
-                    showToast("图片保存失败！");
-                }
+                showLoading("保存中...");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        boolean result = mAdapter.onActicityResultInAdapter(GroupCheckActivity.this);
+                        if (!result) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showToast("图片保存失败！");
+                                }
+                            });
+                        }else {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mAdapter.notifyDataSetChanged();
+                                }
+                            });
+                        }
+                        hideLoading();
+                    }
+                }).start();
+
                 break;
             case DEL_PICTURE:
                 mAdapter.upDataUi();
