@@ -42,7 +42,6 @@ import speedata.com.eoms.ui.onecheck.OnecheckActivity;
 import speedata.com.eoms.ui.showphoto.ShowPhotoActivity;
 import speedata.com.eoms.utils.BimpUtil;
 import speedata.com.eoms.utils.GetTimeUtils;
-import speedata.com.eoms.utils.PlaySoundPool;
 import speedata.com.eoms.utils.ScanUtil;
 import speedata.com.eoms.view.MyGridView;
 
@@ -127,7 +126,7 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
                     tv_responsible.setText(list.get(0).getResponsibilityOffice());
                     tv_repair.setText(list.get(0).getMaintenanceFactory());
                     orderNumber = list.get(0).getId();
-                    PlaySoundPool.getPlaySoundPool((MainActivity) getActivity()).playLaser();
+                    MyApplication.soundPool.play(MyApplication.successSound,1, 1, 0, 0, 1);
 
                     BimpUtil.max = 0;
                     MyApplication.getInstance().selectBitmap.clear();
@@ -135,7 +134,8 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
                     adapter.notifyDataSetChanged();
 
                 } else {
-                    PlaySoundPool.getPlaySoundPool((MainActivity) getActivity()).playError();
+                    MyApplication.soundPool.play(MyApplication.failedSound,1, 1, 0, 0, 1);
+                    Toast.makeText(getActivity(),"没有查到相关信息",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -194,7 +194,14 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
                 break;
 
             case R.id.tv_select:
-                mPresenter.getTreeData();
+                showLoading(getActivity(),"加载中...");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPresenter.getTreeData();
+                    }
+                }).start();
+
                 break;
         }
     }
@@ -214,8 +221,6 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
                     tv_responsible.setText(unique.getResponsibilityOffice());
                     tv_repair.setText(unique.getMaintenanceFactory());
                     orderNumber = unique.getId();
-//                    PlaySoundPool.getPlaySoundPool((MainActivity) getActivity()).playLaser();
-
                     BimpUtil.max = 0;
                     MyApplication.getInstance().selectBitmap.clear();
                     mPresenter.getOrderNumPhoto(orderNumber);//获取当前单号下的照片
@@ -331,24 +336,39 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
 
 
     @Override
-    public void returnTreeNode(TreeNode root) {
-        AlertDialog.Builder builder = new AlertDialog.Builder((MainActivity) getActivity());
-        builder.setTitle("选择设备");
-        builder.setCancelable(false);
-        androidTreeView = new AndroidTreeView((MainActivity) getActivity(), root);
-        androidTreeView.setDefaultAnimation(true);
-        androidTreeView.setDefaultContainerStyle(R.style.TreeNodeStyleCustom);
-        androidTreeView.setDefaultViewHolder(IconTreeItemHolder.class);
-        androidTreeView.setDefaultNodeClickListener(nodeClickListener);
-        View view = androidTreeView.getView();
-        builder.setView(view);
-        builder.setNegativeButton("取消", null);
-        dialog = builder.create();
-        dialog.show();
+    public void returnTreeNode(final TreeNode root) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder((MainActivity) getActivity());
+                builder.setTitle("选择设备");
+                builder.setCancelable(false);
+                androidTreeView = new AndroidTreeView((MainActivity) getActivity(), root);
+                androidTreeView.setDefaultAnimation(false);
+                androidTreeView.setDefaultContainerStyle(R.style.TreeNodeStyleCustom);
+                androidTreeView.setDefaultViewHolder(IconTreeItemHolder.class);
+                androidTreeView.setDefaultNodeClickListener(nodeClickListener);
+                View view = androidTreeView.getView();
+                view.setMinimumHeight(1600);
+                view.setMinimumWidth(900);
+                builder.setView(view);
+                builder.setNegativeButton("取消", null);
+                dialog = builder.create();
+                dialog.show();
+                hideLoading();
+            }
+        });
+
     }
 
     @Override
-    public void showFailedInfo(String msg) {
-        Toast.makeText((MainActivity) getActivity(), msg, Toast.LENGTH_SHORT).show();
+    public void showFailedInfo(final String msg) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText((MainActivity) getActivity(), msg, Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }

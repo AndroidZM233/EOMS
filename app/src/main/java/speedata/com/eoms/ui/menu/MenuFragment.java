@@ -94,7 +94,15 @@ public class MenuFragment extends MVPBaseFragment<MenuContract.View, MenuPresent
                 startActivity(intent);
                 break;
             case R.id.tv_menu_import:
-                mPresenter.importInfo();
+                showLoading(getActivity(),"导入中...");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPresenter.importInfo();
+                        hideLoading();
+                    }
+                }).start();
+
                 break;
             case R.id.tv_menu_auto:
                 //去除这个功能
@@ -111,8 +119,14 @@ public class MenuFragment extends MVPBaseFragment<MenuContract.View, MenuPresent
     }
 
     @Override
-    public void changeImportUi(String read) {
-        Toast.makeText((MainActivity) getActivity(),read,Toast.LENGTH_SHORT).show();
+    public void changeImportUi(final String read) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText((MainActivity) getActivity(),read,Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override

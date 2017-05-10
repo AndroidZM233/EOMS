@@ -97,7 +97,6 @@ public class RepairPresenter extends BasePresenterImpl<RepairContract.View> impl
         TreeNode root = TreeNode.root();
         TreeNode parent = null;
         List<TreeNode> parentList = new ArrayList<>();
-        List<TreeNode> childTreeList = new ArrayList<>();
         List<Device> mList = MyApplication.getDaoInstant().getDeviceDao().queryBuilder().list();
         List<String> classifyList = new ArrayList<>();
         for (int i = 0; i < mList.size(); i++) {
@@ -111,6 +110,7 @@ public class RepairPresenter extends BasePresenterImpl<RepairContract.View> impl
             return;
         }
         for (int i = 0; i < classifyList.size(); i++) {
+            List<TreeNode> childTreeList = new ArrayList<>();
             String classify = classifyList.get(i);
             DeviceType deviceType = MyApplication.getDaoInstant().getDeviceTypeDao().queryBuilder()
                     .where(DeviceTypeDao.Properties.Id.eq(classify)).unique();

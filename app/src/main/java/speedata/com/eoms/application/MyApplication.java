@@ -2,6 +2,8 @@ package speedata.com.eoms.application;
 
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.telephony.TelephonyManager;
 
 import java.util.ArrayList;
@@ -29,6 +31,9 @@ public class MyApplication extends Application {
     public static String deviceId;
     public static String realName="测试";
     public static String userName="0000";
+    public static SoundPool soundPool;
+    public static int failedSound;
+    public static int successSound;
 
     @Override
     public void onCreate() {
@@ -39,6 +44,9 @@ public class MyApplication extends Application {
         deviceId = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getDeviceId();
         BimpUtil.isFolderExists("/storage/emulated/0/data/HTYL/Out/");
         BimpUtil.isFolderExists("/storage/emulated/0/data/HTYL/In/");
+        soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+        failedSound = soundPool.load("/system/media/audio/ui/VideoRecord.ogg", 0);
+        successSound = soundPool.load("/system/media/audio/ui/WirelessChargingStarted.ogg", 0);
     }
 
 
