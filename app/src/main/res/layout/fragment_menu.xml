@@ -12,19 +12,23 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <ImageView
+        <TextView
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:id="@+id/tv_realName"
+            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/menu_userinfo" />
+            android:background="@drawable/menu_userinfo" />
 
         <TextView
+            android:gravity="center"
             android:id="@+id/tv_menu_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:text="张三"
             android:textColor="@color/white"
-            android:textSize="15sp" />
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout

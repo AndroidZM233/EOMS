@@ -12,13 +12,14 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     //获得IMEI
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    //自启权限
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:name=".application.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
@@ -92,6 +93,15 @@
         </receiver>
 
         <service android:name=".service.CleanCacheService" />
+
+
+        <receiver android:name=".broadcast.BootBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

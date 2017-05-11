@@ -65,7 +65,7 @@ public class OnecheckPresenter extends BasePresenterImpl<OnecheckContract.View> 
                     + MyApplication.realName + ","
                     + fileListStr
                     + "\n";
-            BimpUtil.copyFolder(oldPath, newPath);
+
             String isFind = BimpUtil.findFileName(newPath, "_inspection.log");
             if (TextUtils.isEmpty(isFind)) {
                 String fileName = GetTimeUtils.getTimeStyle1() + "_" + MyApplication.deviceId + "_inspection.log";
@@ -74,14 +74,11 @@ public class OnecheckPresenter extends BasePresenterImpl<OnecheckContract.View> 
                 BimpUtil.writeContent(newPath + "/" + isFind, result);
             }
 
+            BimpUtil.copyFolder(oldPath, newPath);
             //删除缓存图片
             File file = new File(oldPath);
-            boolean del = BimpUtil.deleteSDFile(file);
-            if (del) {
-                return true;
-            } else {
-                return false;
-            }
+            BimpUtil.deleteSDFile(file);
+            return true;
 
         } catch (Exception e) {
             e.printStackTrace();

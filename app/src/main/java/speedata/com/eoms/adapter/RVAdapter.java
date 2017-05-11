@@ -6,8 +6,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.RadioGroup;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +44,7 @@ public class RVAdapter extends CommonRvAdapter<RVBean> {
     private int selectPosition;
     private String imagePath;
     private String fileName;
+    private int etPosition;
 
     public RVAdapter(Context context, int layoutResId, List<RVBean> data) {
         super(context, layoutResId, data);
@@ -50,11 +55,11 @@ public class RVAdapter extends CommonRvAdapter<RVBean> {
     @Override
     public void convert(BaseAdapterHelper helper, final RVBean item, final int outPosition) {
         final String orderNumber = item.getOrderNumber();
-        helper.setText(R.id.tv_name,item.getName());
-        helper.setText(R.id.tv_type,item.getType());
-        helper.setText(R.id.tv_position,item.getPosition());
-        helper.setText(R.id.tv_responsible,item.getResponsible());
-        helper.setText(R.id.tv_repair,item.getRepair());
+        helper.setText(R.id.tv_name, item.getName());
+        helper.setText(R.id.tv_type, item.getType());
+        helper.setText(R.id.tv_position, item.getPosition());
+        helper.setText(R.id.tv_responsible, item.getResponsible());
+        helper.setText(R.id.tv_repair, item.getRepair());
 
         if (sections.size() < rvList.size()) {
             MyApplication.getInstance().selectBitmap.clear();
@@ -66,9 +71,24 @@ public class RVAdapter extends CommonRvAdapter<RVBean> {
             Section section = new Section(selectBitmap, adapter);
             sections.add(section);
             helper.setAdapter(R.id.gridview_photo, adapter);
-        }else {
+        } else {
             helper.setAdapter(R.id.gridview_photo, sections.get(outPosition).getAdapter());
         }
+
+//        helper.setText(R.id.et_remark, "");
+        helper.setText(R.id.et_remark, rvList.get(outPosition).getRemark());
+        boolean itemNo1_check = rvList.get(outPosition).isNo1_check();
+        if (itemNo1_check) {
+            RadioGroup radioGroup = helper.getView(R.id.radioGroup);
+            radioGroup.clearCheck();
+            radioGroup.check(R.id.radio_fault);
+        } else {
+            RadioGroup radioGroup = helper.getView(R.id.radioGroup);
+            radioGroup.clearCheck();
+            radioGroup.check(R.id.radio_normal);
+        }
+
+
         helper.setOnItemClickListener(R.id.gridview_photo, new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -99,11 +119,69 @@ public class RVAdapter extends CommonRvAdapter<RVBean> {
                     MyApplication.getInstance().selectBitmap.clear();
                     MyApplication.getInstance().selectBitmap.addAll(sections
                             .get(outPosition).getImageItemList());
-                    ((Activity) mContext).startActivityForResult(intent,DEL_PICTURE);
+                    ((Activity) mContext).startActivityForResult(intent, DEL_PICTURE);
                 }
             }
         });
 
+        helper.setOnClickListener(R.id.radio_normal, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rvList.get(outPosition).setNo1_check(false);
+            }
+        });
+        helper.setOnClickListener(R.id.radio_fault, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rvList.get(outPosition).setNo1_check(true);
+            }
+        });
+
+        final EditText view = helper.getView(R.id.et_remark);
+        view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    view.addTextChangedListener(new TextSwitcher(outPosition));
+                    etPosition = outPosition;
+                } else {
+                    etPosition = -1;
+                }
+            }
+        });
+
+    }
+
+    class TextSwitcher implements TextWatcher {
+
+        private int outPosition;
+
+        public TextSwitcher(int outPosition) {
+//            this.item = item;
+            this.outPosition = outPosition;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (etPosition == outPosition && etPosition >= 0 ) {
+                rvList.get(etPosition).setRemark(s.toString());
+            }
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+//            item.setRemark(s.toString());
+//            if (etPosition >= 0 ) {
+//                rvList.get(etPosition).setRemark(s.toString());
+//                etPosition=-1;
+//            }
+        }
     }
 
     private void getOrderNumPhoto(String orderNumber) {
@@ -133,7 +211,7 @@ public class RVAdapter extends CommonRvAdapter<RVBean> {
             takePhoto.setImagePath(imagePath);
             sections.get(selectPosition).getImageItemList().add(takePhoto);
             return true;
-        }else {
+        } else {
             return false;
         }
 
@@ -153,7 +231,7 @@ public class RVAdapter extends CommonRvAdapter<RVBean> {
 //        }
     }
 
-    public void upDataUi(){
+    public void upDataUi() {
         List<ImageItem> selectBitmap = new ArrayList<>();
         selectBitmap.addAll(MyApplication.getInstance().selectBitmap);
         sections.get(selectPosition).setImageItemList(selectBitmap);

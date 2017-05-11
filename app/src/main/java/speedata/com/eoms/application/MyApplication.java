@@ -47,8 +47,15 @@ public class MyApplication extends Application {
         soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
         failedSound = soundPool.load("/system/media/audio/ui/VideoRecord.ogg", 0);
         successSound = soundPool.load("/system/media/audio/ui/WirelessChargingStarted.ogg", 0);
+
+        BimpUtil.writeOnlyContent("/storage/emulated/0/data/HTYL/IMEI.txt",deviceId);
     }
 
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        soundPool.release();
+    }
 
     public static MyApplication getInstance() {
         return singleton;

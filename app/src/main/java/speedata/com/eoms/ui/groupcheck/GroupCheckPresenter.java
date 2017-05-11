@@ -59,7 +59,7 @@ public class GroupCheckPresenter extends BasePresenterImpl<GroupCheckContract.Vi
                     + MyApplication.realName + ","
                     + fileListStr
                     + "\n";
-            BimpUtil.copyFolder(oldPath, newPath);
+
             String isFind = BimpUtil.findFileName(newPath, "_inspection.log");
             if (TextUtils.isEmpty(isFind)) {
                 String fileName = GetTimeUtils.getTimeStyle1() + "_" + MyApplication.deviceId + "_inspection.log";
@@ -68,6 +68,7 @@ public class GroupCheckPresenter extends BasePresenterImpl<GroupCheckContract.Vi
                 BimpUtil.writeContent(newPath + "/" + isFind, result);
             }
 
+            BimpUtil.copyFolder(oldPath, newPath);
             //删除缓存图片
             File file = new File(oldPath);
             BimpUtil.deleteSDFile(file);

@@ -16,6 +16,7 @@ import speedata.com.eoms.mvp.MVPBaseFragment;
 import speedata.com.eoms.ui.changepwd.ChangePwdActivity;
 import speedata.com.eoms.ui.main.MainActivity;
 import speedata.com.eoms.ui.record.RecordActivity;
+import speedata.com.eoms.utils.FileUtil;
 import speedata.com.eoms.utils.SharedXmlUtil;
 
 /**
@@ -25,6 +26,7 @@ import speedata.com.eoms.utils.SharedXmlUtil;
 
 public class MenuFragment extends MVPBaseFragment<MenuContract.View, MenuPresenter>
         implements MenuContract.View,View.OnClickListener {
+    private TextView tv_realName;
     private TextView tv_menu_name;
     private TextView tv_menu_clean;
     private TextView tv_menu_record;
@@ -41,6 +43,7 @@ public class MenuFragment extends MVPBaseFragment<MenuContract.View, MenuPresent
     }
 
     private void initView(View view) {
+        tv_realName= (TextView) view.findViewById(R.id.tv_realName);
         tv_menu_name= (TextView) view.findViewById(R.id.tv_menu_name);
         tv_menu_clean= (TextView) view.findViewById(R.id.tv_menu_clean);
         tv_menu_record= (TextView) view.findViewById(R.id.tv_menu_record);
@@ -57,7 +60,13 @@ public class MenuFragment extends MVPBaseFragment<MenuContract.View, MenuPresent
         tv_menu_pwd.setOnClickListener(this);
         tv_menu_version.setOnClickListener(this);
 
-        tv_menu_name.setText(MyApplication.realName);
+        tv_realName.setText(MyApplication.realName);
+        try {
+            String read = FileUtil.read("/storage/emulated/0/data/HTYL/In/phone.txt").replace("\n","");
+            tv_menu_name.setText(read);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         int time = SharedXmlUtil.getInstance(getActivity()).read("cacheTime", 10);
         tv_menu_clean.setText("本地缓存天数"+time+"天");
     }

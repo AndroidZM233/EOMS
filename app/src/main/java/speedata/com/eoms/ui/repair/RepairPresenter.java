@@ -58,12 +58,8 @@ public class RepairPresenter extends BasePresenterImpl<RepairContract.View> impl
 
             //删除缓存图片
             File file = new File(oldPath);
-            boolean del = BimpUtil.deleteSDFile(file);
-            if (del) {
-                return true;
-            } else {
-                return false;
-            }
+            BimpUtil.deleteSDFile(file);
+            return true;
 
         } catch (Exception e) {
             e.printStackTrace();

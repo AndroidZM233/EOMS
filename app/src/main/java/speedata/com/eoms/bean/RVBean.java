@@ -10,7 +10,7 @@ public class RVBean {
     private String position;
     private String responsible;
     private String repair;
-    private boolean no1_check;
+    private boolean no1_check=false;
     private String remark;
     private String orderNumber;
 

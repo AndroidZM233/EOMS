@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EOMS</string>
+    <string name="app_name">设备运维</string>
 
     <string name="ic_folder">&#xe09d;</string>
     <string name="ic_keyboard_arrow_right">&#xe0c7;</string>

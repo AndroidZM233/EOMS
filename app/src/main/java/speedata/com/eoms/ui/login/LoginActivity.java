@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import speedata.com.eoms.R;
 import speedata.com.eoms.mvp.MVPBaseActivity;
@@ -31,6 +32,7 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
     private Button exit_btn;
     private String et_str;
     private String pwd_str;
+    private TextView app_name;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
     }
 
     private void initView() {
+        app_name= (TextView) findViewById(R.id.app_name);
         tel_et = (EditText) findViewById(R.id.tel_et);
         tel_et_clearbtn = (ImageView) findViewById(R.id.tel_et_clearbtn);
         pwd_et = (EditText) findViewById(R.id.pwd_et);
@@ -47,6 +50,7 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
         login_btn = (Button) findViewById(R.id.login_btn);
         exit_btn = (Button) findViewById(R.id.exit_btn);
 
+        app_name.getBackground().setAlpha(80);
         login_btn.setOnClickListener(this);
         exit_btn.setOnClickListener(this);
         setClearBtnListener(tel_et,tel_et_clearbtn);

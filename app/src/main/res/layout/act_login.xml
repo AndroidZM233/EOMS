@@ -5,17 +5,25 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
     <RelativeLayout
+        android:background="@drawable/login_bg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="250dp">
 
-        <ImageView
-            android:src="@drawable/login_bg"
+        <TextView
+            android:id="@+id/app_name"
+            android:padding="10dp"
+            android:gravity="center"
+            android:drawableLeft="@drawable/u1033"
+            android:textColor="#EAE542"
+            android:background="@color/transparency"
+            android:textSize="22sp"
+            android:text="铁路客运设备运维系统"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="wrap_content" />
     </RelativeLayout>
     <LinearLayout
         android:padding="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -133,7 +141,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/selector_item_blue"
+                android:background="@drawable/deep_red_btn"
                 android:text="登录"
                 android:textColor="@color/text_white"
                 android:textSize="@dimen/commom_textsize" />
@@ -146,7 +154,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/selector_item_blue"
+                android:background="@drawable/deep_red_btn"
                 android:text="退出"
                 android:textColor="@color/text_white"
                 android:textSize="@dimen/commom_textsize" />

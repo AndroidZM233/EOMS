@@ -9,8 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +36,7 @@ public class GroupCheckActivity extends MVPBaseActivity<GroupCheckContract.View,
     private Button btn_commit;
     private RVAdapter mAdapter;
     private List<RVBean> mList = new ArrayList<RVBean>();
+    private LinearLayoutManager layoutManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +63,8 @@ public class GroupCheckActivity extends MVPBaseActivity<GroupCheckContract.View,
         mAdapter = new RVAdapter(GroupCheckActivity.this, R.layout.item_info, mList);
         rv_content.addItemDecoration(new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL));
-        rv_content.setLayoutManager(new LinearLayoutManager(this));
+        layoutManager = new LinearLayoutManager(this);
+        rv_content.setLayoutManager(layoutManager);
         rv_content.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);
     }
@@ -82,14 +82,10 @@ public class GroupCheckActivity extends MVPBaseActivity<GroupCheckContract.View,
                     @Override
                     public void run() {
                         boolean inspectionTXT;
-                        for (int i = 0; i < rv_content.getChildCount(); i++) {
-                            View childAt = rv_content.getChildAt(i);
-                            EditText editText = (EditText) childAt.findViewById(R.id.et_remark);
-                            RadioButton radioButton = (RadioButton) childAt
-                                    .findViewById(R.id.radio_normal);
-                            String etStr = editText.getText().toString();
-                            boolean checked = radioButton.isChecked();
-                            if (checked) {
+                        for (int i = 0; i < mList.size(); i++) {
+                            String etStr = mList.get(i).getRemark();
+                            boolean checked = mList.get(i).isNo1_check();
+                            if (!checked) {
                                 inspectionTXT = mPresenter.saveInspectionTXT(mList.get(i)
                                         .getOrderNumber(), 0, etStr);
                             } else {
@@ -148,7 +144,7 @@ public class GroupCheckActivity extends MVPBaseActivity<GroupCheckContract.View,
                                     showToast("图片保存失败！");
                                 }
                             });
-                        }else {
+                        } else {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {

@@ -12,6 +12,24 @@ import speedata.com.eoms.model.ImageItem;
 public class Section {
     private List<ImageItem> imageItemList;
     private PhotoGridAdapter adapter;
+    private String remark;
+    private boolean faultChecked;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public boolean isFaultChecked() {
+        return faultChecked;
+    }
+
+    public void setFaultChecked(boolean faultChecked) {
+        this.faultChecked = faultChecked;
+    }
 
     public List<ImageItem> getImageItemList() {
         return imageItemList;
