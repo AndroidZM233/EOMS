@@ -64,7 +64,7 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
     private RadioGroup radioGroup;
     private EditText et_remark;
     private MyGridView gridview_photo;
-    private Button btn_commit;
+    private Button btn_commit,btn_clean;
     private GridAdapter adapter;
     private String orderNumber;
     private static final int TAKE_PICTURE = 0x000001;
@@ -100,10 +100,12 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
         et_remark = (EditText) view.findViewById(R.id.et_remark);
         gridview_photo = (MyGridView) view.findViewById(R.id.gridview_photo);
         btn_commit = (Button) view.findViewById(R.id.btn_commit);
+        btn_clean= (Button) view.findViewById(R.id.btn_clean);
 
         MyApplication.getInstance().selectBitmap.clear();
         tv_select.setOnClickListener(this);
         btn_commit.setOnClickListener(this);
+        btn_clean.setOnClickListener(this);
         btn_top_left.setVisibility(View.INVISIBLE);
         tv_title.setText("报修");
         radioGroup.setVisibility(View.GONE);
@@ -160,11 +162,11 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
                     return;
                 }
                 final String repairContent = et_remark.getText().toString();
-                if (TextUtils.isEmpty(repairContent)) {
-                    Toast.makeText((MainActivity) getActivity(), "请填写备注（故障内容）!"
-                            , Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                if (TextUtils.isEmpty(repairContent)) {
+//                    Toast.makeText((MainActivity) getActivity(), "请填写备注（故障内容）!"
+//                            , Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
                 showLoading((MainActivity) getActivity(), "提交中...");
                 new Thread(new Runnable() {
 
@@ -202,6 +204,11 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
                     }
                 }).start();
 
+                break;
+
+            case R.id.btn_clean:
+                closeFragment();
+                openFragment(new RepairFragment());
                 break;
         }
     }
@@ -367,8 +374,10 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
             @Override
             public void run() {
                 Toast.makeText((MainActivity) getActivity(), msg, Toast.LENGTH_SHORT).show();
+                hideLoading();
             }
         });
 
     }
+
 }

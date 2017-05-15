@@ -14,6 +14,7 @@ import android.widget.TextView;
 import speedata.com.eoms.R;
 import speedata.com.eoms.mvp.MVPBaseActivity;
 import speedata.com.eoms.ui.main.MainActivity;
+import speedata.com.eoms.utils.BanBottomBarUtils;
 
 
 /**
@@ -39,6 +40,12 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_login);
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BanBottomBarUtils.back(false,getApplicationContext());
     }
 
     private void initView() {

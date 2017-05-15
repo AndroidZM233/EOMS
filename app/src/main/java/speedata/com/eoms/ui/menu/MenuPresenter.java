@@ -39,6 +39,7 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
     @Override
     public void importInfo() {
         try {
+            MyApplication.getDaoInstant().getDeviceDao().deleteAll();
             //导入设备文件
             importDevice();
         } catch (Exception e) {
@@ -46,6 +47,7 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
             mView.changeImportUi("导入设备文件失败！");
         }
         try {
+            MyApplication.getDaoInstant().getDeviceTypeDao().deleteAll();
             //导入设备分类
             importDeviceType();
         } catch (Exception e) {
@@ -53,6 +55,7 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
             mView.changeImportUi("导入设备分类文件失败！");
         }
         try {
+            MyApplication.getDaoInstant().getFaultTypeDao().deleteAll();
             //导入故障类型
             importFaultType();
         } catch (Exception e) {
@@ -60,6 +63,7 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
             mView.changeImportUi("导入故障类型文件失败！");
         }
         try {
+            MyApplication.getDaoInstant().getPackageDao().deleteAll();
             //导入组巡文件
             importPackage();
         } catch (Exception e) {
@@ -67,6 +71,7 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
             mView.changeImportUi("导入组巡文件失败！");
         }
         try {
+            MyApplication.getDaoInstant().getUserDao().deleteAll();
             //导入用户信息
             importUser();
         } catch (Exception e) {

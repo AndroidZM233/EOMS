@@ -14,6 +14,7 @@ import speedata.com.eoms.bean.DaoSession;
 import speedata.com.eoms.bean.User;
 import speedata.com.eoms.bean.UserDao;
 import speedata.com.eoms.model.ImageItem;
+import speedata.com.eoms.utils.BanBottomBarUtils;
 import speedata.com.eoms.utils.BimpUtil;
 
 /**
@@ -29,8 +30,8 @@ public class MyApplication extends Application {
      */
     public List<ImageItem> selectBitmap = new ArrayList<ImageItem>();
     public static String deviceId;
-    public static String realName="测试";
-    public static String userName="0000";
+    public static String realName = "测试";
+    public static String userName = "0000";
     public static SoundPool soundPool;
     public static int failedSound;
     public static int successSound;
@@ -48,7 +49,11 @@ public class MyApplication extends Application {
         failedSound = soundPool.load("/system/media/audio/ui/VideoRecord.ogg", 0);
         successSound = soundPool.load("/system/media/audio/ui/WirelessChargingStarted.ogg", 0);
 
-        BimpUtil.writeOnlyContent("/storage/emulated/0/data/HTYL/IMEI.txt",deviceId);
+        BimpUtil.writeOnlyContent("/storage/emulated/0/data/HTYL/IMEI.txt", deviceId);
+
+        BanBottomBarUtils.home(false,getApplicationContext());
+        BanBottomBarUtils.recent(false,getApplicationContext());
+        BanBottomBarUtils.upmenu(false,getApplicationContext());
     }
 
     @Override
@@ -60,10 +65,11 @@ public class MyApplication extends Application {
     public static MyApplication getInstance() {
         return singleton;
     }
+
     //模拟登陆数据
     private void initData() {
         UserDao userDao = daoSession.getUserDao();
-        User user=new User();
+        User user = new User();
         user.setUser_name("0000");
         user.setPwd("0000");
         user.setReal_name("zhang");
@@ -72,23 +78,24 @@ public class MyApplication extends Application {
 
     private void setupDatabase() {
         //创建数据库
-        DaoMaster.DevOpenHelper helper=new DaoMaster.DevOpenHelper(this,"EOMS.db",null);
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "EOMS.db", null);
         //获得可写数据库
-        SQLiteDatabase db=helper.getWritableDatabase();
+        SQLiteDatabase db = helper.getWritableDatabase();
         //获得数据库对象
-        DaoMaster daoMaster=new DaoMaster(db);
+        DaoMaster daoMaster = new DaoMaster(db);
         //获得dao对象管理者
         daoSession = daoMaster.newSession();
     }
 
-    public static DaoSession getDaoInstant(){
+    public static DaoSession getDaoInstant() {
         return daoSession;
     }
 
-    public static void setRealName(String name){
-        realName=name;
+    public static void setRealName(String name) {
+        realName = name;
     }
-    public static void setUserName(String name){
-        userName=name;
+
+    public static void setUserName(String name) {
+        userName = name;
     }
 }

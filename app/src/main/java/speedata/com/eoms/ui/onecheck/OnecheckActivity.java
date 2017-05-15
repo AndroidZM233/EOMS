@@ -178,7 +178,7 @@ public class OnecheckActivity extends MVPBaseActivity<OnecheckContract.View, One
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        Bitmap bm = BimpUtil.getimage(imagePath, 400f, 240f);
+                        Bitmap bm = BimpUtil.getimage(imagePath, 200f, 120f);
                         if (BimpUtil.saveBitmap(bm, orderNumber, fileName)) {
                             ImageItem takePhoto = new ImageItem();
                             takePhoto.setBitmap(bm);

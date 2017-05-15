@@ -12,6 +12,7 @@ import speedata.com.eoms.mvp.MVPBaseActivity;
 import speedata.com.eoms.ui.check.CheckFragment;
 import speedata.com.eoms.ui.menu.MenuFragment;
 import speedata.com.eoms.ui.repair.RepairFragment;
+import speedata.com.eoms.utils.BanBottomBarUtils;
 
 
 /**
@@ -32,6 +33,12 @@ public class MainActivity extends MVPBaseActivity<MainContract.View, MainPresent
         setContentView(R.layout.act_main);
         initView();
         changeTvCheckImage();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BanBottomBarUtils.back(true,getApplicationContext());
     }
 
     private void initView() {

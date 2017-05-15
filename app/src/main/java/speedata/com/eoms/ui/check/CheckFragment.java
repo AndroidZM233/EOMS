@@ -153,6 +153,7 @@ public class CheckFragment extends MVPBaseFragment<CheckContract.View, CheckPres
             @Override
             public void run() {
                 Toast.makeText((MainActivity) getActivity(), msg, Toast.LENGTH_SHORT).show();
+                hideLoading();
             }
         });
     }

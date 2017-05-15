@@ -100,6 +100,21 @@
             android:gravity="center_vertical"
             android:text="密码修改"
             android:textSize="15sp" />
+
+        <TextView
+            android:background="@drawable/selector_item_whitetoblue"
+            android:id="@+id/tv_menu_flashlight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:drawableLeft="@drawable/menu_flashlight_red"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:text="打开手电筒"
+            android:textSize="15sp" />
+
+
         <TextView
             android:background="@drawable/selector_item_whitetoblue"
             android:id="@+id/tv_menu_version"
