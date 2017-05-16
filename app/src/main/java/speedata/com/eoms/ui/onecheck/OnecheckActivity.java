@@ -20,12 +20,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.List;
 
 import speedata.com.eoms.R;
 import speedata.com.eoms.adapter.GridAdapter;
 import speedata.com.eoms.application.AppConfig;
 import speedata.com.eoms.application.MyApplication;
 import speedata.com.eoms.bean.Device;
+import speedata.com.eoms.bean.DeviceType;
+import speedata.com.eoms.bean.DeviceTypeDao;
 import speedata.com.eoms.model.ImageItem;
 import speedata.com.eoms.mvp.MVPBaseActivity;
 import speedata.com.eoms.ui.showphoto.ShowPhotoActivity;
@@ -214,7 +217,12 @@ public class OnecheckActivity extends MVPBaseActivity<OnecheckContract.View, One
     @Override
     public void backDevice(Device device) {
         tv_name.setText(device.getName());
-        tv_type.setText(device.getType());
+        String classify = device.getClassify();
+        List<DeviceType> deviceTypeList = MyApplication.getDaoInstant().getDeviceTypeDao().queryBuilder()
+                .where(DeviceTypeDao.Properties.Id.eq(classify)).list();
+        if (deviceTypeList.size()!=0){
+            tv_type.setText(deviceTypeList.get(0).getName());
+        }
         tv_position.setText(device.getPosition());
         tv_responsible.setText(device.getResponsibilityOffice());
         tv_repair.setText(device.getMaintenanceFactory());

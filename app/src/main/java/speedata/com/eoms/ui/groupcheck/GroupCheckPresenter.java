@@ -10,6 +10,8 @@ import speedata.com.eoms.application.AppConfig;
 import speedata.com.eoms.application.MyApplication;
 import speedata.com.eoms.bean.Device;
 import speedata.com.eoms.bean.DeviceDao;
+import speedata.com.eoms.bean.DeviceType;
+import speedata.com.eoms.bean.DeviceTypeDao;
 import speedata.com.eoms.bean.Package;
 import speedata.com.eoms.bean.PackageDao;
 import speedata.com.eoms.bean.RVBean;
@@ -36,7 +38,12 @@ public class GroupCheckPresenter extends BasePresenterImpl<GroupCheckContract.Vi
                     .where(DeviceDao.Properties.Id.eq(split[i])).unique();
             RVBean rvBean=new RVBean();
             rvBean.setName(device.getName());
-            rvBean.setType(device.getType());
+            String classify = device.getClassify();
+            List<DeviceType> deviceTypeList = MyApplication.getDaoInstant().getDeviceTypeDao().queryBuilder()
+                    .where(DeviceTypeDao.Properties.Id.eq(classify)).list();
+            if (deviceTypeList.size()!=0){
+                rvBean.setType(deviceTypeList.get(0).getName());
+            }
             rvBean.setPosition(device.getPosition());
             rvBean.setResponsible(device.getResponsibilityOffice());
             rvBean.setRepair(device.getMaintenanceFactory());

@@ -51,9 +51,9 @@ public class MyApplication extends Application {
 
         BimpUtil.writeOnlyContent("/storage/emulated/0/data/HTYL/IMEI.txt", deviceId);
 
-        BanBottomBarUtils.home(false,getApplicationContext());
-        BanBottomBarUtils.recent(false,getApplicationContext());
-        BanBottomBarUtils.upmenu(false,getApplicationContext());
+        BanBottomBarUtils.home(true,getApplicationContext());
+        BanBottomBarUtils.recent(true,getApplicationContext());
+        BanBottomBarUtils.upmenu(true,getApplicationContext());
     }
 
     @Override

@@ -35,6 +35,8 @@ import speedata.com.eoms.application.AppConfig;
 import speedata.com.eoms.application.MyApplication;
 import speedata.com.eoms.bean.Device;
 import speedata.com.eoms.bean.DeviceDao;
+import speedata.com.eoms.bean.DeviceType;
+import speedata.com.eoms.bean.DeviceTypeDao;
 import speedata.com.eoms.model.ImageItem;
 import speedata.com.eoms.mvp.MVPBaseFragment;
 import speedata.com.eoms.ui.main.MainActivity;
@@ -123,7 +125,12 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
                 List<Device> list = where.list();
                 if (list.size() > 0) {
                     tv_name.setText(list.get(0).getName());
-                    tv_type.setText(list.get(0).getType());
+                    String classify = list.get(0).getClassify();
+                    List<DeviceType> deviceTypeList = MyApplication.getDaoInstant().getDeviceTypeDao().queryBuilder()
+                            .where(DeviceTypeDao.Properties.Id.eq(classify)).list();
+                    if (deviceTypeList.size()!=0){
+                        tv_type.setText(deviceTypeList.get(0).getName());
+                    }
                     tv_position.setText(list.get(0).getPosition());
                     tv_responsible.setText(list.get(0).getResponsibilityOffice());
                     tv_repair.setText(list.get(0).getMaintenanceFactory());
@@ -223,7 +230,12 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
                         .where(DeviceDao.Properties.Name.eq(item.text)).unique();
                 if (unique != null) {
                     tv_name.setText(unique.getName());
-                    tv_type.setText(unique.getType());
+                    String classify = unique.getClassify();
+                    List<DeviceType> deviceTypeList = MyApplication.getDaoInstant().getDeviceTypeDao().queryBuilder()
+                            .where(DeviceTypeDao.Properties.Id.eq(classify)).list();
+                    if (deviceTypeList.size()!=0){
+                        tv_type.setText(deviceTypeList.get(0).getName());
+                    }
                     tv_position.setText(unique.getPosition());
                     tv_responsible.setText(unique.getResponsibilityOffice());
                     tv_repair.setText(unique.getMaintenanceFactory());

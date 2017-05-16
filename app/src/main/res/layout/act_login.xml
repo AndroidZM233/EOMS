@@ -147,6 +147,7 @@
                 android:textSize="@dimen/commom_textsize" />
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/exit_btn"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
