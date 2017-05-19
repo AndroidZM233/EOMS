@@ -5,9 +5,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.SystemProperties;
 import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -25,6 +27,8 @@ import speedata.com.eoms.mvp.BasePresenterImpl;
 import speedata.com.eoms.service.AutoImportService;
 import speedata.com.eoms.utils.FileUtil;
 import speedata.com.eoms.utils.SharedXmlUtil;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * MVPPlugin
@@ -178,6 +182,30 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+
+    /**
+     * 发送系统广播，并等待相机释放。sending system broadcast，and waiting for camera release
+     */
+    @Override
+    public void waitCamera(Context context) {
+        context.sendBroadcast(new Intent().setAction("com.se4500.opencamera"));
+        if (SystemProperties.get("persist.sys.keyreport").equals("true")) {
+            if (SystemProperties.get("persist.sys.se4500").equals("true")) {
+                int waitCount;
+                for (waitCount = 0; waitCount < 20; waitCount++) {
+                    try {
+                        Thread.sleep(200);
+                    } catch (Exception e) {
+                        Log.d(TAG, "waitCamera: ");
+                    }
+                    if (SystemProperties.get("persist.sys.iscamera").equals("open")) {
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     //判断服务是否启动

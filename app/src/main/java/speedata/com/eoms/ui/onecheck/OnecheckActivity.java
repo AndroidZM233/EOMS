@@ -110,7 +110,7 @@ public class OnecheckActivity extends MVPBaseActivity<OnecheckContract.View, One
                 OnecheckActivity.this.finish();
                 break;
             case R.id.btn_commit:
-                showLoading("提交中...");
+                showLoading("保存中...");
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -129,11 +129,11 @@ public class OnecheckActivity extends MVPBaseActivity<OnecheckContract.View, One
                             @Override
                             public void run() {
                                 if (inspectionTXT) {
-                                    Toast.makeText(OnecheckActivity.this, "提交成功！!"
+                                    Toast.makeText(OnecheckActivity.this, "保存成功！!"
                                             , Toast.LENGTH_SHORT).show();
                                     OnecheckActivity.this.finish();
                                 } else {
-                                    Toast.makeText(OnecheckActivity.this, "提交失败，文件保存失败!"
+                                    Toast.makeText(OnecheckActivity.this, "文件保存失败!"
                                             , Toast.LENGTH_SHORT).show();
                                 }
                             }

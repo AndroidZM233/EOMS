@@ -45,7 +45,10 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
     @Override
     protected void onResume() {
         super.onResume();
-        BanBottomBarUtils.back(true,getApplicationContext());
+        BanBottomBarUtils.back(false,getApplicationContext());
+        BanBottomBarUtils.home(false,getApplicationContext());
+        BanBottomBarUtils.recent(false,getApplicationContext());
+        BanBottomBarUtils.upmenu(false,getApplicationContext());
         pwd_et.setText("");
     }
 

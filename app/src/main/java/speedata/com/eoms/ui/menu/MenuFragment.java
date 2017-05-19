@@ -6,20 +6,15 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import speedata.com.eoms.R;
 import speedata.com.eoms.application.MyApplication;
 import speedata.com.eoms.mvp.MVPBaseFragment;
+import speedata.com.eoms.ui.aboutus.AboutUsActivity;
 import speedata.com.eoms.ui.changepwd.ChangePwdActivity;
 import speedata.com.eoms.ui.main.MainActivity;
 import speedata.com.eoms.ui.record.RecordActivity;
@@ -41,6 +36,7 @@ public class MenuFragment extends MVPBaseFragment<MenuContract.View, MenuPresent
     private TextView tv_menu_auto;
     private TextView tv_menu_pwd;
     private TextView tv_menu_flashlight;
+    private TextView tv_menu_aboutus;
     private TextView tv_menu_version;
     Camera camera = null;// = Camera.open();
     Camera.Parameters parameter;
@@ -53,12 +49,7 @@ public class MenuFragment extends MVPBaseFragment<MenuContract.View, MenuPresent
     }
 
     private void initCamera() {
-        if (judgeSe4500()) {
-            Intent intent = new Intent();
-            intent.setAction("com.se4500.opencamera");
-            getActivity().sendBroadcast(intent);
-            SystemClock.sleep(300);
-        }
+        mPresenter.waitCamera(getActivity());
         if (camera == null) {
             try {
                 camera = Camera.open();
@@ -81,6 +72,7 @@ public class MenuFragment extends MVPBaseFragment<MenuContract.View, MenuPresent
         tv_menu_pwd = (TextView) view.findViewById(R.id.tv_menu_pwd);
         tv_menu_flashlight = (TextView) view.findViewById(R.id.tv_menu_flashlight);
         tv_menu_version = (TextView) view.findViewById(R.id.tv_menu_version);
+        tv_menu_aboutus= (TextView) view.findViewById(R.id.tv_menu_aboutus);
 
         tv_menu_version.setText(getVersion());
         tv_menu_clean.setOnClickListener(this);
@@ -90,6 +82,7 @@ public class MenuFragment extends MVPBaseFragment<MenuContract.View, MenuPresent
         tv_menu_pwd.setOnClickListener(this);
         tv_menu_flashlight.setOnClickListener(this);
         tv_menu_version.setOnClickListener(this);
+        tv_menu_aboutus.setOnClickListener(this);
 
         tv_realName.setText(MyApplication.realName);
         try {
@@ -166,6 +159,10 @@ public class MenuFragment extends MVPBaseFragment<MenuContract.View, MenuPresent
                 break;
             case R.id.tv_menu_version:
                 break;
+            case R.id.tv_menu_aboutus:
+                Intent intent2=new Intent(getActivity(), AboutUsActivity.class);
+                startActivity(intent2);
+                break;
         }
     }
 
@@ -209,31 +206,31 @@ public class MenuFragment extends MVPBaseFragment<MenuContract.View, MenuPresent
         camera.setParameters(parameter);
     }
 
-    private boolean judgeSe4500() {
-        File DeviceName = new File("proc/se4500");
-        try {
-            BufferedWriter CtrlFile = new BufferedWriter(new FileWriter(
-                    DeviceName, false));
-            return true;
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            // e.printStackTrace();
-            return false;
-        } // open
+
+    @Override
+    public void onPause() {
+        super.onPause();
+//        if (judgeSe4500()) {
+//            Intent intent = new Intent();
+//            intent.setAction("com.se4500.closecamera");
+//            getActivity().sendBroadcast(intent);
+//        }
+//        getActivity().sendBroadcast(new Intent().setAction("com.se4500.closecamera"));
+//        if (camera != null) {
+//            camera.stopPreview();
+//            camera.release();
+//            camera = null;
+//        }
     }
 
     @Override
     public void onDestroy() {
-        if (judgeSe4500()) {
-            Intent intent = new Intent();
-            intent.setAction("com.se4500.closecamera");
-            getActivity().sendBroadcast(intent);
-        }
+        super.onDestroy();
+        getActivity().sendBroadcast(new Intent().setAction("com.se4500.closecamera"));
         if (camera != null) {
             camera.stopPreview();
             camera.release();
             camera = null;
         }
-        super.onDestroy();
     }
 }

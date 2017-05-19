@@ -77,7 +77,7 @@ public class GroupCheckActivity extends MVPBaseActivity<GroupCheckContract.View,
                 GroupCheckActivity.this.finish();
                 break;
             case R.id.btn_commit:
-                showLoading("提交中...");
+                showLoading("保存中...");
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -97,7 +97,7 @@ public class GroupCheckActivity extends MVPBaseActivity<GroupCheckContract.View,
                                     @Override
                                     public void run() {
                                         Toast.makeText(GroupCheckActivity.this,
-                                                "提交失败，文件保存失败!", Toast.LENGTH_SHORT).show();
+                                                "文件保存失败!", Toast.LENGTH_SHORT).show();
                                         return;
                                     }
                                 });
@@ -107,7 +107,7 @@ public class GroupCheckActivity extends MVPBaseActivity<GroupCheckContract.View,
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(GroupCheckActivity.this, "提交成功！!"
+                                Toast.makeText(GroupCheckActivity.this, "保存成功！!"
                                         , Toast.LENGTH_SHORT).show();
                                 GroupCheckActivity.this.finish();
                             }

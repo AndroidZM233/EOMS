@@ -21,5 +21,6 @@ public class MenuContract {
         void importInfo();
         void showDialog(Context context);
         void showCacheDialog(Context context);
+        void waitCamera(Context context);
     }
 }

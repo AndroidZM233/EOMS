@@ -52,7 +52,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/deep_red_btn"
-                    android:text="提交"
+                    android:text="保存"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
 

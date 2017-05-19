@@ -14,7 +14,6 @@ import speedata.com.eoms.bean.DaoSession;
 import speedata.com.eoms.bean.User;
 import speedata.com.eoms.bean.UserDao;
 import speedata.com.eoms.model.ImageItem;
-import speedata.com.eoms.utils.BanBottomBarUtils;
 import speedata.com.eoms.utils.BimpUtil;
 
 /**
@@ -31,7 +30,7 @@ public class MyApplication extends Application {
     public List<ImageItem> selectBitmap = new ArrayList<ImageItem>();
     public static String deviceId;
     public static String realName = "测试";
-    public static String userName = "0000";
+    public static String userName = "测试";
     public static SoundPool soundPool;
     public static int failedSound;
     public static int successSound;
@@ -50,10 +49,6 @@ public class MyApplication extends Application {
         successSound = soundPool.load("/system/media/audio/ui/WirelessChargingStarted.ogg", 0);
 
         BimpUtil.writeOnlyContent("/storage/emulated/0/data/HTYL/IMEI.txt", deviceId);
-
-        BanBottomBarUtils.home(true,getApplicationContext());
-        BanBottomBarUtils.recent(true,getApplicationContext());
-        BanBottomBarUtils.upmenu(true,getApplicationContext());
     }
 
     @Override
@@ -70,9 +65,9 @@ public class MyApplication extends Application {
     private void initData() {
         UserDao userDao = daoSession.getUserDao();
         User user = new User();
-        user.setUser_name("0000");
-        user.setPwd("0000");
-        user.setReal_name("zhang");
+        user.setUser_name("admin");
+        user.setPwd("admin");
+        user.setReal_name("admin");
         userDao.insertOrReplace(user);
     }
 

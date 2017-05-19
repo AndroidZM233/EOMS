@@ -8,10 +8,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import speedata.com.eoms.R;
+import speedata.com.eoms.application.MyApplication;
 import speedata.com.eoms.mvp.MVPBaseActivity;
 import speedata.com.eoms.ui.check.CheckFragment;
 import speedata.com.eoms.ui.menu.MenuFragment;
 import speedata.com.eoms.ui.repair.RepairFragment;
+import speedata.com.eoms.utils.BanBottomBarUtils;
 
 
 /**
@@ -37,7 +39,12 @@ public class MainActivity extends MVPBaseActivity<MainContract.View, MainPresent
     @Override
     protected void onResume() {
         super.onResume();
-//        BanBottomBarUtils.back(true,getApplicationContext());
+        BanBottomBarUtils.back(true,getApplicationContext());
+        if (MyApplication.userName.equals("admin")){
+            BanBottomBarUtils.home(true,getApplicationContext());
+            BanBottomBarUtils.recent(true,getApplicationContext());
+            BanBottomBarUtils.upmenu(true,getApplicationContext());
+        }
     }
 
     private void initView() {

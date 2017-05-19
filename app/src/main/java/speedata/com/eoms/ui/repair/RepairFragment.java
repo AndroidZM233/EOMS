@@ -174,7 +174,7 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
 //                            , Toast.LENGTH_SHORT).show();
 //                    return;
 //                }
-                showLoading((MainActivity) getActivity(), "提交中...");
+                showLoading((MainActivity) getActivity(), "保存中...");
                 new Thread(new Runnable() {
 
                     @Override
@@ -187,12 +187,12 @@ public class RepairFragment extends MVPBaseFragment<RepairContract.View, RepairP
                             @Override
                             public void run() {
                                 if (repairTXT) {
-                                    Toast.makeText((MainActivity) getActivity(), "提交成功！!"
+                                    Toast.makeText((MainActivity) getActivity(), "保存成功！!"
                                             , Toast.LENGTH_SHORT).show();
                                     closeFragment();
                                     openFragment(new RepairFragment());
                                 } else {
-                                    Toast.makeText((MainActivity) getActivity(), "提交失败，文件保存失败!"
+                                    Toast.makeText((MainActivity) getActivity(), "文件保存失败!"
                                             , Toast.LENGTH_SHORT).show();
                                 }
                             }
