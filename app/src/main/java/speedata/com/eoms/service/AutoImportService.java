@@ -6,8 +6,10 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,6 +19,8 @@ import speedata.com.eoms.bean.DeviceType;
 import speedata.com.eoms.bean.FaultType;
 import speedata.com.eoms.bean.Package;
 import speedata.com.eoms.bean.User;
+import speedata.com.eoms.bean.UserDao;
+import speedata.com.eoms.utils.BimpUtil;
 import speedata.com.eoms.utils.FileUtil;
 
 /**
@@ -66,9 +70,38 @@ public class AutoImportService extends Service {
 
         @Override
         public void run() {
-            importInfo();
+            final String isExists = fileIsExists();
+            if (TextUtils.isEmpty(isExists)){
+                importInfo();
+                File file = new File("/storage/emulated/0/data/HTYL/In");
+                BimpUtil.deleteFiles(file);
+                initData();
+                Intent intent=new Intent(AutoImportService.this,AutoImportService.class);
+                stopService(intent);
+            }else {
+                Handler handler=new Handler(Looper.getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(AutoImportService.this,
+                                isExists, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
         }
     }
+
+    //模拟登陆数据
+    private void initData() {
+        UserDao userDao = MyApplication.getDaoInstant().getUserDao();
+        User user = new User();
+        user.setUser_name("admin");
+        user.setPwd("admin");
+        user.setReal_name("admin");
+        userDao.insertOrReplace(user);
+    }
+
 
     public void importInfo() {
         final StringBuffer stringBuffer=new StringBuffer();
@@ -125,9 +158,30 @@ public class AutoImportService extends Service {
     }
 
 
+    //判断文件是否存在
+    private String fileIsExists(){
+        StringBuffer stringBuffer=new StringBuffer();
+        if (!BimpUtil.fileIsExists("/storage/emulated/0/data/HTYL/In/device.txt")){
+            stringBuffer.append("device.txt文件不存在\n");
+        }
+        if (!BimpUtil.fileIsExists("/storage/emulated/0/data/HTYL/In/deviceType.txt")){
+            stringBuffer.append("deviceType.txt文件不存在\n");
+        }
+        if (!BimpUtil.fileIsExists("/storage/emulated/0/data/HTYL/In/faultType.txt")){
+            stringBuffer.append("faultType.txt文件不存在\n");
+        }
+        if (!BimpUtil.fileIsExists("/storage/emulated/0/data/HTYL/In/user.txt")){
+            stringBuffer.append("user.txt文件不存在\n");
+        }
+        if (!BimpUtil.fileIsExists("/storage/emulated/0/data/HTYL/In/package.txt")){
+            stringBuffer.append("package.txt文件不存在");
+        }
+        return String.valueOf(stringBuffer);
+    }
+
     private void importDevice() {
         String read = FileUtil.read("/storage/emulated/0/data/HTYL/In/device.txt");
-        String[] split = read.split("\n");
+        String[] split = read.split("\\*\\#\n");
         for (int i = 0; i < split.length; i++) {
             String[] infoSplit = split[i].split(",");
             Device device = new Device();
@@ -166,7 +220,7 @@ public class AutoImportService extends Service {
 
     private void importDeviceType() {
         String read = FileUtil.read("/storage/emulated/0/data/HTYL/In/deviceType.txt");
-        String[] split = read.split("\n");
+        String[] split = read.split("\\*\\#\n");
         for (int i = 0; i < split.length; i++) {
             String[] infoSplit = split[i].split(",");
             DeviceType deviceType = new DeviceType();
@@ -181,7 +235,7 @@ public class AutoImportService extends Service {
 
     private void importFaultType() {
         String read = FileUtil.read("/storage/emulated/0/data/HTYL/In/faultType.txt");
-        String[] split = read.split("\n");
+        String[] split = read.split("\\*\\#\n");
         for (int i = 0; i < split.length; i++) {
             String[] infoSplit = split[i].split(",");
             FaultType faultType = new FaultType();
@@ -197,7 +251,7 @@ public class AutoImportService extends Service {
     //有问题-主键问题
     private void importUser() {
         String read = FileUtil.read("/storage/emulated/0/data/HTYL/In/user.txt");
-        String[] split = read.split("\n");
+        String[] split = read.split("\\*\\#\n");
         for (int i = 0; i < split.length; i++) {
             String[] infoSplit = split[i].split(",");
             User user = new User();
@@ -210,7 +264,7 @@ public class AutoImportService extends Service {
 
     private void importPackage() {
         String read = FileUtil.read("/storage/emulated/0/data/HTYL/In/package.txt");
-        String[] split = read.split("\n");
+        String[] split = read.split("\\*\\#\n");
         for (int i = 0; i < split.length; i++) {
             String[] infoSplit = split[i].split(",");
             Package mPackage = new Package();

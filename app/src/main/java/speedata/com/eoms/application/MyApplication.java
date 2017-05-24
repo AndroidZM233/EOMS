@@ -11,8 +11,6 @@ import java.util.List;
 
 import speedata.com.eoms.bean.DaoMaster;
 import speedata.com.eoms.bean.DaoSession;
-import speedata.com.eoms.bean.User;
-import speedata.com.eoms.bean.UserDao;
 import speedata.com.eoms.model.ImageItem;
 import speedata.com.eoms.utils.BimpUtil;
 
@@ -40,7 +38,6 @@ public class MyApplication extends Application {
         super.onCreate();
         singleton = this;
         setupDatabase();
-        initData();
         deviceId = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getDeviceId();
         BimpUtil.isFolderExists("/storage/emulated/0/data/HTYL/Out/");
         BimpUtil.isFolderExists("/storage/emulated/0/data/HTYL/In/");
@@ -61,15 +58,7 @@ public class MyApplication extends Application {
         return singleton;
     }
 
-    //模拟登陆数据
-    private void initData() {
-        UserDao userDao = daoSession.getUserDao();
-        User user = new User();
-        user.setUser_name("admin");
-        user.setPwd("admin");
-        user.setReal_name("admin");
-        userDao.insertOrReplace(user);
-    }
+
 
     private void setupDatabase() {
         //创建数据库

@@ -349,4 +349,40 @@ public class BimpUtil {
         }
         return true;
     }
+
+
+    //删除文件夹下所有文件
+    public static void deleteFiles(File file){
+        //file目标文件夹绝对路径
+        if (file.exists()) { //指定文件是否存在
+            if (file.isFile()) { //该路径名表示的文件是否是一个标准文件
+                file.delete(); //删除该文件
+            } else if (file.isDirectory()) { //该路径名表示的文件是否是一个目录（文件夹）
+                File[] files = file.listFiles(); //列出当前文件夹下的所有文件
+                for (File f : files) {
+                    deleteSDFile(f); //递归删除
+                }
+            }
+        }
+    }
+
+    //判断文件是否存在
+    public static boolean fileIsExists(String strFile)
+    {
+        try
+        {
+            File f=new File(strFile);
+            if(!f.exists())
+            {
+                return false;
+            }
+
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+
+        return true;
+    }
 }

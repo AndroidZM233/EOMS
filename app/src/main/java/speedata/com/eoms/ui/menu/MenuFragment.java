@@ -91,7 +91,7 @@ public class MenuFragment extends MVPBaseFragment<MenuContract.View, MenuPresent
         } catch (Exception e) {
             e.printStackTrace();
         }
-        int time = SharedXmlUtil.getInstance(getActivity()).read("cacheTime", 100);
+        int time = SharedXmlUtil.getInstance(getActivity()).read("cacheTime", 10);
         tv_menu_clean.setText("本地缓存天数" + time + "天");
     }
 

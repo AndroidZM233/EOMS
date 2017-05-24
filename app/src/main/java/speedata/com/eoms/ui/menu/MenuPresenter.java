@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import speedata.com.eoms.bean.Package;
 import speedata.com.eoms.bean.User;
 import speedata.com.eoms.mvp.BasePresenterImpl;
 import speedata.com.eoms.service.AutoImportService;
+import speedata.com.eoms.utils.BimpUtil;
 import speedata.com.eoms.utils.FileUtil;
 import speedata.com.eoms.utils.SharedXmlUtil;
 
@@ -42,50 +44,78 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
     //导入基础信息
     @Override
     public void importInfo() {
-        try {
-            MyApplication.getDaoInstant().getDeviceDao().deleteAll();
-            //导入设备文件
-            importDevice();
-        } catch (Exception e) {
-            e.printStackTrace();
-            mView.changeImportUi("导入设备文件失败！");
-        }
-        try {
-            MyApplication.getDaoInstant().getDeviceTypeDao().deleteAll();
-            //导入设备分类
-            importDeviceType();
-        } catch (Exception e) {
-            e.printStackTrace();
-            mView.changeImportUi("导入设备分类文件失败！");
-        }
-        try {
-            MyApplication.getDaoInstant().getFaultTypeDao().deleteAll();
-            //导入故障类型
-            importFaultType();
-        } catch (Exception e) {
-            e.printStackTrace();
-            mView.changeImportUi("导入故障类型文件失败！");
-        }
-        try {
-            MyApplication.getDaoInstant().getPackageDao().deleteAll();
-            //导入组巡文件
-            importPackage();
-        } catch (Exception e) {
-            e.printStackTrace();
-            mView.changeImportUi("导入组巡文件失败！");
-        }
-        try {
-            MyApplication.getDaoInstant().getUserDao().deleteAll();
-            //导入用户信息
-            importUser();
-        } catch (Exception e) {
-            e.printStackTrace();
-            mView.changeImportUi("导入用户信息失败！");
-        }
+        final String isExists = fileIsExists();
+        if (TextUtils.isEmpty(isExists)){
+            try {
+                MyApplication.getDaoInstant().getDeviceDao().deleteAll();
+                //导入设备文件
+                importDevice();
+            } catch (Exception e) {
+                e.printStackTrace();
+                mView.changeImportUi("导入设备文件失败！");
+            }
+            try {
+                MyApplication.getDaoInstant().getDeviceTypeDao().deleteAll();
+                //导入设备分类
+                importDeviceType();
+            } catch (Exception e) {
+                e.printStackTrace();
+                mView.changeImportUi("导入设备分类文件失败！");
+            }
+            try {
+                MyApplication.getDaoInstant().getFaultTypeDao().deleteAll();
+                //导入故障类型
+                importFaultType();
+            } catch (Exception e) {
+                e.printStackTrace();
+                mView.changeImportUi("导入故障类型文件失败！");
+            }
+            try {
+                MyApplication.getDaoInstant().getPackageDao().deleteAll();
+                //导入组巡文件
+                importPackage();
+            } catch (Exception e) {
+                e.printStackTrace();
+                mView.changeImportUi("导入组巡文件失败！");
+            }
+            try {
+                MyApplication.getDaoInstant().getUserDao().deleteAll();
+                //导入用户信息
+                importUser();
+            } catch (Exception e) {
+                e.printStackTrace();
+                mView.changeImportUi("导入用户信息失败！");
+            }
 
-        mView.changeImportUi("导入成功！");
+            mView.changeImportUi("导入成功！");
+            File file = new File("/storage/emulated/0/data/HTYL/In");
+            BimpUtil.deleteFiles(file);
+        }else {
+            mView.changeImportUi(isExists);
+        }
 
     }
+    //判断文件是否存在
+    private String fileIsExists(){
+        StringBuffer stringBuffer=new StringBuffer();
+        if (!BimpUtil.fileIsExists("/storage/emulated/0/data/HTYL/In/device.txt")){
+            stringBuffer.append("device.txt文件不存在\n");
+        }
+        if (!BimpUtil.fileIsExists("/storage/emulated/0/data/HTYL/In/deviceType.txt")){
+            stringBuffer.append("deviceType.txt文件不存在\n");
+        }
+        if (!BimpUtil.fileIsExists("/storage/emulated/0/data/HTYL/In/faultType.txt")){
+            stringBuffer.append("faultType.txt文件不存在\n");
+        }
+        if (!BimpUtil.fileIsExists("/storage/emulated/0/data/HTYL/In/user.txt")){
+            stringBuffer.append("user.txt文件不存在\n");
+        }
+        if (!BimpUtil.fileIsExists("/storage/emulated/0/data/HTYL/In/package.txt")){
+            stringBuffer.append("package.txt文件不存在");
+        }
+        return String.valueOf(stringBuffer);
+    }
+
 
     //设置上传间隔-功能去除
     @Override
@@ -230,7 +260,7 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
     @NonNull
     private void importDevice() {
         String read = FileUtil.read("/storage/emulated/0/data/HTYL/In/device.txt");
-        String[] split = read.split("\n");
+        String[] split = read.split("\\*\\#\n");
         for (int i = 0; i < split.length; i++) {
             String[] infoSplit = split[i].split(",");
             Device device = new Device();
@@ -269,7 +299,7 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
 
     private void importDeviceType() {
         String read = FileUtil.read("/storage/emulated/0/data/HTYL/In/deviceType.txt");
-        String[] split = read.split("\n");
+        String[] split = read.split("\\*\\#\n");
         for (int i = 0; i < split.length; i++) {
             String[] infoSplit = split[i].split(",");
             DeviceType deviceType = new DeviceType();
@@ -284,7 +314,7 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
 
     private void importFaultType() {
         String read = FileUtil.read("/storage/emulated/0/data/HTYL/In/faultType.txt");
-        String[] split = read.split("\n");
+        String[] split = read.split("\\*\\#\n");
         for (int i = 0; i < split.length; i++) {
             String[] infoSplit = split[i].split(",");
             FaultType faultType = new FaultType();
@@ -300,7 +330,7 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
     //有问题-主键问题
     private void importUser() {
         String read = FileUtil.read("/storage/emulated/0/data/HTYL/In/user.txt");
-        String[] split = read.split("\n");
+        String[] split = read.split("\\*\\#\n");
         for (int i = 0; i < split.length; i++) {
             String[] infoSplit = split[i].split(",");
             User user = new User();
@@ -313,7 +343,7 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
 
     private void importPackage() {
         String read = FileUtil.read("/storage/emulated/0/data/HTYL/In/package.txt");
-        String[] split = read.split("\n");
+        String[] split = read.split("\\*\\#\n");
         for (int i = 0; i < split.length; i++) {
             String[] infoSplit = split[i].split(",");
             Package mPackage = new Package();

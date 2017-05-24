@@ -23,7 +23,7 @@ public class CleanCacheService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        int time = SharedXmlUtil.getInstance(this).read("cacheTime", 100);
+        int time = SharedXmlUtil.getInstance(this).read("cacheTime", 10);
         long cacheDate = SharedXmlUtil.getInstance(this).read("cacheDate", 1494296840234L);
         long timeMillis = System.currentTimeMillis();
         //换算成天数
