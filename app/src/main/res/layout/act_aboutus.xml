@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/logo"
+    android:background="@drawable/about"
     android:orientation="vertical">
 
     <ImageView
@@ -12,15 +12,6 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/back" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="230dp"
-        android:gravity="center"
-        android:text="技术支持：北京航天易联科技发展有限公司\n版权所有：北京航天易联科技发展有限公司\n客服电话：010-56386020
-"
-        android:textColor="@color/white"
-        android:textSize="17.5dp" />
 
 
 </LinearLayout>
