@@ -16,12 +16,12 @@ public class ScanUtil {
 
 	private OnScanListener listener;
 
-	// 接受广播
+	// 解码广播
 	private String RECE_DATA_ACTION = "com.se4500.onDecodeComplete";
 	// 调用扫描广播
 	private String START_SCAN_ACTION = "com.geomobile.se4500barcode";
-
-	private String STOP_SCAN_ACTION = "com.geomobile.se4500barcode.poweroff";
+	//停止
+	private String STOP_SCAN_ACTION = "com.geomobile.se4500barcodestop";
 
 	/**
 	 * 是否为自动扫描

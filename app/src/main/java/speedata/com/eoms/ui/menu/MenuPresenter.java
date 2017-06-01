@@ -87,6 +87,7 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
                 mView.changeImportUi("导入用户信息失败！");
             }
 
+
             mView.changeImportUi("导入成功！");
             File file = new File("/storage/emulated/0/data/HTYL/In");
             BimpUtil.deleteFiles(file);
@@ -292,7 +293,12 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
             device.setReservedOne(infoSplit[25]);
             device.setReservedTwo(infoSplit[26]);
             device.setReservedThree(infoSplit[27]);
-            device.setCreationTime(infoSplit[28]);
+            try {
+                device.setCreationTime(infoSplit[28]);
+            } catch (Exception e) {
+                e.printStackTrace();
+                device.setCreationTime("");
+            }
             MyApplication.getDaoInstant().getDeviceDao().insertOrReplace(device);
         }
     }
@@ -306,7 +312,13 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
             deviceType.setId(infoSplit[0]);
             deviceType.setName(infoSplit[1]);
             deviceType.setCode(infoSplit[2]);
-            deviceType.setRemark(infoSplit[3]);
+            try {
+                deviceType.setRemark(infoSplit[3]);
+            } catch (Exception e) {
+                e.printStackTrace();
+                deviceType.setRemark("");
+            }
+
             MyApplication.getDaoInstant().getDeviceTypeDao().insertOrReplace(deviceType);
         }
     }
@@ -321,7 +333,12 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
             faultType.setId(infoSplit[0]);
             faultType.setName(infoSplit[1]);
             faultType.setCode(infoSplit[2]);
-            faultType.setRemark(infoSplit[3]);
+            try {
+                faultType.setRemark(infoSplit[3]);
+            } catch (Exception e) {
+                e.printStackTrace();
+                faultType.setRemark("");
+            }
             MyApplication.getDaoInstant().getFaultTypeDao().insertOrReplace(faultType);
         }
     }
@@ -335,7 +352,12 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
             String[] infoSplit = split[i].split(",");
             User user = new User();
             user.setUser_name(infoSplit[0]);
-            user.setReal_name(infoSplit[1]);
+            try {
+                user.setReal_name(infoSplit[1]);
+            } catch (Exception e) {
+                e.printStackTrace();
+                user.setReal_name("");
+            }
             user.setPwd("0000");
             MyApplication.getDaoInstant().getUserDao().insertOrReplace(user);
         }
@@ -350,7 +372,12 @@ public class MenuPresenter extends BasePresenterImpl<MenuContract.View> implemen
             mPackage.setId(infoSplit[0]);
             mPackage.setName(infoSplit[1]);
             mPackage.setBarcode(infoSplit[2]);
-            mPackage.setEquipment(infoSplit[3]);
+            try {
+                mPackage.setEquipment(infoSplit[3]);
+            } catch (Exception e) {
+                e.printStackTrace();
+                mPackage.setEquipment("");
+            }
             MyApplication.getDaoInstant().getPackageDao().insertOrReplace(mPackage);
         }
     }

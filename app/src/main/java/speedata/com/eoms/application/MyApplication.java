@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,10 @@ public class MyApplication extends Application {
         failedSound = soundPool.load("/system/media/audio/ui/VideoRecord.ogg", 0);
         successSound = soundPool.load("/system/media/audio/ui/WirelessChargingStarted.ogg", 0);
 
-        BimpUtil.writeOnlyContent("/storage/emulated/0/data/HTYL/IMEI.txt", deviceId);
+        if (!TextUtils.isEmpty(deviceId)) {
+            BimpUtil.writeOnlyContent("/storage/emulated/0/data/HTYL/IMEI.txt", deviceId);
+        }
+
     }
 
     @Override
@@ -57,7 +61,6 @@ public class MyApplication extends Application {
     public static MyApplication getInstance() {
         return singleton;
     }
-
 
 
     private void setupDatabase() {

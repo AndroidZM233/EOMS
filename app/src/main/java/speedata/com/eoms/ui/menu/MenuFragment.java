@@ -18,7 +18,6 @@ import speedata.com.eoms.ui.aboutus.AboutUsActivity;
 import speedata.com.eoms.ui.changepwd.ChangePwdActivity;
 import speedata.com.eoms.ui.main.MainActivity;
 import speedata.com.eoms.ui.record.RecordActivity;
-import speedata.com.eoms.utils.FileUtil;
 import speedata.com.eoms.utils.SharedXmlUtil;
 
 /**
@@ -86,11 +85,12 @@ public class MenuFragment extends MVPBaseFragment<MenuContract.View, MenuPresent
 
         tv_realName.setText(MyApplication.realName);
         try {
-            String read = FileUtil.read("/storage/emulated/0/data/HTYL/In/phone.txt").replace("\n", "");
-            tv_menu_name.setText(read);
+            String phone = SharedXmlUtil.getInstance(getActivity()).read("phone", "");
+            tv_menu_name.setText(phone);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         int time = SharedXmlUtil.getInstance(getActivity()).read("cacheTime", 10);
         tv_menu_clean.setText("本地缓存天数" + time + "天");
     }

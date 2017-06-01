@@ -15,6 +15,8 @@ import speedata.com.eoms.R;
 import speedata.com.eoms.mvp.MVPBaseActivity;
 import speedata.com.eoms.ui.main.MainActivity;
 import speedata.com.eoms.utils.BanBottomBarUtils;
+import speedata.com.eoms.utils.FileUtil;
+import speedata.com.eoms.utils.SharedXmlUtil;
 
 
 /**
@@ -50,6 +52,8 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
         BanBottomBarUtils.recent(false,getApplicationContext());
         BanBottomBarUtils.upmenu(false,getApplicationContext());
         pwd_et.setText("");
+
+
     }
 
     private void initView() {

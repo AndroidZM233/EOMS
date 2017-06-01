@@ -22,6 +22,7 @@ import speedata.com.eoms.bean.User;
 import speedata.com.eoms.bean.UserDao;
 import speedata.com.eoms.utils.BimpUtil;
 import speedata.com.eoms.utils.FileUtil;
+import speedata.com.eoms.utils.SharedXmlUtil;
 
 /**
  * Created by 张明_ on 2017/5/5.
@@ -145,6 +146,15 @@ public class AutoImportService extends Service {
             e.printStackTrace();
             stringBuffer.append("导入用户信息失败\n");
         }
+
+        try {
+            String read = FileUtil.read("/storage/emulated/0/data/HTYL/In/phone.txt").replace("*#\n", "");
+            SharedXmlUtil.getInstance(this).write("phone",read);
+        } catch (Exception e) {
+            e.printStackTrace();
+            stringBuffer.append("导入手持机信息失败\n");
+        }
+
         final String str= String.valueOf(stringBuffer);
         Handler handler=new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
@@ -213,7 +223,12 @@ public class AutoImportService extends Service {
             device.setReservedOne(infoSplit[25]);
             device.setReservedTwo(infoSplit[26]);
             device.setReservedThree(infoSplit[27]);
-            device.setCreationTime(infoSplit[28]);
+            try {
+                device.setCreationTime(infoSplit[28]);
+            } catch (Exception e) {
+                e.printStackTrace();
+                device.setCreationTime("");
+            }
             MyApplication.getDaoInstant().getDeviceDao().insertOrReplace(device);
         }
     }
@@ -227,7 +242,12 @@ public class AutoImportService extends Service {
             deviceType.setId(infoSplit[0]);
             deviceType.setName(infoSplit[1]);
             deviceType.setCode(infoSplit[2]);
-            deviceType.setRemark(infoSplit[3]);
+            try {
+                deviceType.setRemark(infoSplit[3]);
+            } catch (Exception e) {
+                e.printStackTrace();
+                deviceType.setRemark("");
+            }
             MyApplication.getDaoInstant().getDeviceTypeDao().insertOrReplace(deviceType);
         }
     }
@@ -242,7 +262,12 @@ public class AutoImportService extends Service {
             faultType.setId(infoSplit[0]);
             faultType.setName(infoSplit[1]);
             faultType.setCode(infoSplit[2]);
-            faultType.setRemark(infoSplit[3]);
+            try {
+                faultType.setRemark(infoSplit[3]);
+            } catch (Exception e) {
+                e.printStackTrace();
+                faultType.setRemark("");
+            }
             MyApplication.getDaoInstant().getFaultTypeDao().insertOrReplace(faultType);
         }
     }
@@ -256,7 +281,12 @@ public class AutoImportService extends Service {
             String[] infoSplit = split[i].split(",");
             User user = new User();
             user.setUser_name(infoSplit[0]);
-            user.setReal_name(infoSplit[1]);
+            try {
+                user.setReal_name(infoSplit[1]);
+            } catch (Exception e) {
+                e.printStackTrace();
+                user.setReal_name("");
+            }
             user.setPwd("0000");
             MyApplication.getDaoInstant().getUserDao().insertOrReplace(user);
         }
@@ -271,7 +301,12 @@ public class AutoImportService extends Service {
             mPackage.setId(infoSplit[0]);
             mPackage.setName(infoSplit[1]);
             mPackage.setBarcode(infoSplit[2]);
-            mPackage.setEquipment(infoSplit[3]);
+            try {
+                mPackage.setEquipment(infoSplit[3]);
+            } catch (Exception e) {
+                e.printStackTrace();
+                mPackage.setEquipment("");
+            }
             MyApplication.getDaoInstant().getPackageDao().insertOrReplace(mPackage);
         }
     }
